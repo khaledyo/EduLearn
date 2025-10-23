@@ -1,0 +1,123 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow-sm border-0 login-container">
+        <div class="card-body p-4">
+
+         
+          <div class="text-center mb-4">
+            <img src="assets/logo.jpg" alt="EduLearn Logo" class="login-logo" />
+          </div>
+
+          <h3 class="text-center text-primary mb-3 login-title">
+            Connexion à EduLearn
+          </h3>
+          <p class="text-center text-muted mb-4">
+            Entrez vos identifiants pour accéder à votre espace
+          </p>
+
+          <!-- ✅ Bloc d'erreur d'authentification (NOUVEAU) -->
+          <div
+            *ngIf="authError"
+            class="alert alert-danger alert-dismissible fade show"
+            role="alert"
+          >
+            <i class="fas fa-exclamation-circle me-2"></i>
+            {{ authError }}
+            <button type="button" class="btn-close" (click)="authError = ''"></button>
+          </div>
+
+          
+          <div
+            *ngIf="showFieldErrors"
+            class="alert alert-warning alert-dismissible fade show"
+            role="alert"
+          >
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            Veuillez corriger les erreurs suivantes :
+            <ul class="mb-0 mt-1">
+              <li *ngIf="!email">L'email est requis</li>
+              <li *ngIf="email && !isValidEmail(email)">Format d'email invalide</li>
+              <li *ngIf="!password">Le mot de passe est requis</li>
+              <li *ngIf="password && password.length < 8">
+                Le mot de passe doit contenir au moins 8 caractères
+              </li>
+            </ul>
+            <button type="button" class="btn-close" (click)="showFieldErrors = false"></button>
+          </div>
+
+          <form (ngSubmit)="onLogin()" novalidate>
+            <div class="mb-4">
+              <label for="email" class="form-label fw-bold">Email</label>
+              <input
+                type="email"
+                id="email"
+                class="form-control"
+                [class.is-invalid]="showFieldErrors && (!email || !isValidEmail(email))"
+                placeholder="nom@exemple.com"
+                [(ngModel)]="email"
+                name="email"
+                required
+                (input)="onFieldChange()"
+              />
+              <div *ngIf="showFieldErrors && !email" class="invalid-feedback">
+                L'email est requis
+              </div>
+              <div *ngIf="showFieldErrors && email && !isValidEmail(email)" class="invalid-feedback">
+                Format d'email invalide
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label fw-bold">Mot de passe</label>
+              <input
+                type="password"
+                id="password"
+                class="form-control"
+                [class.is-invalid]="showFieldErrors && (!password || password.length < 8)"
+                placeholder="••••••••"
+                [(ngModel)]="password"
+                name="password"
+                required
+                minlength="8"
+                (input)="onFieldChange()"
+              />
+              <div *ngIf="showFieldErrors && !password" class="invalid-feedback">
+                Le mot de passe est requis
+              </div>
+              <div *ngIf="showFieldErrors && password && password.length < 8" class="invalid-feedback">
+                Le mot de passe doit avoir au moins 8 caractères
+              </div>
+
+              <div class="mt-2 text-end">
+                <a routerLink="/mot-de-passe-oublie" class="forgot-password">Mot de passe oublié ?</a>
+              </div>
+            </div>
+
+            <div class="d-grid mb-4">
+              <button
+                type="submit"
+                class="btn btn-primary btn-lg"
+                [disabled]="isLoading"
+              >
+                <span *ngIf="!isLoading">Se connecter</span>
+                <span *ngIf="isLoading">
+                  <i class="fas fa-spinner fa-spin me-2"></i>Connexion...
+                </span>
+              </button>
+            </div>
+          </form>
+
+          <div class="text-center mt-4">
+            <small class="text-muted">Pas encore de compte ?</small>
+            <a
+              routerLink="/inscription"
+              class="text-decoration-none fw-bold ms-1"
+              >Créer un compte</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

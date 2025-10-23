@@ -1,0 +1,63 @@
+<div class="container mt-4">
+  <!-- En-tête avec salutation -->
+  <div class="header-section mb-5">
+    <h1 class="welcome-title">Bonjour, Prof. {{ user?.prenom }} {{ user?.nom }} !</h1>
+    <button class="btn btn-create-course">
+      <i class="fas fa-plus me-2"></i>Créer un cours
+    </button>
+  </div>
+
+  <!-- Cartes de statistiques -->
+  <div class="row stats-cards mb-5">
+    <!-- Carte Cours créés -->
+    <div class="col-md-4 mb-4">
+      <div class="stat-card">
+        <div class="stat-icon cours-icon">
+          <i class="fas fa-book"></i>
+        </div>
+        <div class="stat-content">
+          <h3 class="stat-number">{{ stats?.coursCrees || 0 }}</h3>
+          <p class="stat-label">Cours créés</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Carte Étudiants -->
+    <div class="col-md-4 mb-4">
+      <div class="stat-card">
+        <div class="stat-icon etudiants-icon">
+          <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-content">
+          <h3 class="stat-number">{{ stats?.etudiantsTotal || 0 }}</h3>
+          <p class="stat-label">Étudiants</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Carte Messages non lus -->
+    <div class="col-md-4 mb-4">
+      <div class="stat-card">
+        <div class="stat-icon messages-icon">
+          <i class="fas fa-envelope"></i>
+        </div>
+        <div class="stat-content">
+          <h3 class="stat-number">{{ stats?.messagesNonLus || 0 }}</h3>
+          <p class="stat-label">Messages non lus</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section cours récents (optionnelle) -->
+  <div class="recent-courses-section">
+    <h3 class="section-title">Cours récents</h3>
+    <div class="no-courses-placeholder">
+      <i class="fas fa-book-open fa-3x mb-3 text-muted"></i>
+      <p class="text-muted">Aucun cours créé pour le moment</p>
+      <button class="btn btn-create-course-outline">
+        <i class="fas fa-plus me-2"></i>Créer votre premier cours
+      </button>
+    </div>
+  </div>
+</div>
