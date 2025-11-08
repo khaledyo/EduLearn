@@ -295,3 +295,21 @@
     padding: 10px;
   }
 }
+
+.btn-catalog {
+  background: linear-gradient(135deg, #3b82f6, #2563eb); /* dégradé plus vif */
+  color: white;
+  font-weight: 600;
+  border-radius: 25px; /* coins plus arrondis */
+  padding: 10px 22px;
+  border: none;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+  transition: all 0.3s ease;
+}
+
+.btn-catalog:hover {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8); /* effet hover */
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+  transform: translateY(-2px);
+  color: white;
+}

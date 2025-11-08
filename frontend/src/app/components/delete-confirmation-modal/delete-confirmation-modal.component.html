@@ -1,0 +1,38 @@
+<div *ngIf="showModal" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title text-danger">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        Confirmation de suppression
+      </h5>
+      <button type="button" class="btn-close" (click)="onClose()" aria-label="Close"></button>
+    </div>
+
+    <div class="modal-body text-center">
+      <div class="warning-icon mb-3">
+        <i class="fas fa-trash-alt fa-3x text-danger"></i>
+      </div>
+
+      <h6 class="mb-3">Êtes-vous sûr de vouloir supprimer ce cours ?</h6>
+
+      <div class="alert alert-warning" *ngIf="coursTitle">
+        <strong>"{{ coursTitle }}"</strong>
+      </div>
+
+      <p class="text-muted">
+        <small>
+          Cette action est irréversible. Toutes les données associées à ce cours seront perdues.
+        </small>
+      </p>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="onClose()">
+        <i class="fas fa-times me-1"></i>Non, annuler
+      </button>
+      <button type="button" class="btn btn-danger" (click)="onConfirm()">
+        <i class="fas fa-trash me-1"></i>Oui, supprimer
+      </button>
+    </div>
+  </div>
+</div>

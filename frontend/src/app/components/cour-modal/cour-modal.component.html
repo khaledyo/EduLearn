@@ -1,0 +1,81 @@
+<div *ngIf="showModal" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">
+        <i class="fas fa-book me-2"></i>
+        {{ isEditMode ? 'Modifier le cours' : 'Créer un nouveau cours' }}
+      </h5>
+      <button type="button" class="btn-close" (click)="onClose()" aria-label="Close"></button>
+    </div>
+
+    <div class="modal-body">
+      <form [formGroup]="coursForm" (ngSubmit)="onSubmit()">
+
+        <!-- Titre -->
+        <div class="mb-3">
+          <label for="titre" class="form-label">Titre du cours</label>
+          <input type="text" class="form-control" id="titre"
+                 formControlName="titre"
+                 [class.is-invalid]="titre?.invalid && titre?.touched"
+                 placeholder="Entrez le titre du cours">
+          <div class="invalid-feedback" *ngIf="titre?.invalid && titre?.touched">
+            <span *ngIf="titre?.errors?.['required']">Le titre est requis</span>
+            <span *ngIf="titre?.errors?.['minlength']">
+              Le titre doit faire au moins 3 caractères
+            </span>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea class="form-control" id="description" rows="4"
+                    formControlName="description"
+                    [class.is-invalid]="description?.invalid && description?.touched"
+                    placeholder="Décrivez le contenu de votre cours"></textarea>
+          <div class="invalid-feedback" *ngIf="description?.invalid && description?.touched">
+            <span *ngIf="description?.errors?.['required']">La description est requise</span>
+            <span *ngIf="description?.errors?.['minlength']">
+              La description doit faire au moins 10 caractères
+            </span>
+          </div>
+        </div>
+
+        <!-- Support -->
+        <div class="mb-3">
+          <label for="support" class="form-label">Supports de cours</label>
+          <textarea class="form-control" id="support" rows="3"
+                    formControlName="support"
+                    placeholder="https://example.com/doc1.pdf, https://example.com/video1.mp4"></textarea>
+          <div class="form-text">
+            <i class="fas fa-info-circle me-1"></i>
+            Entrez les URLs des documents PDF ou vidéos, séparés par des virgules.
+          </div>
+        </div>
+
+        <!-- Upload de fichier -->
+        <div class="mb-3">
+          <label for="fichier" class="form-label">Ou uploader un fichier</label>
+          <input type="file" class="form-control" id="fichier"
+                 (change)="onFileChange($event)"
+                 accept=".pdf,.mp4,.avi,.mov,.doc,.docx,.ppt,.pptx">
+          <div class="form-text">
+            Formats acceptés: PDF, MP4, AVI, MOV, DOC, DOCX, PPT, PPTX
+          </div>
+        </div>
+
+        <!-- Boutons -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="onClose()">
+            <i class="fas fa-times me-1"></i>Annuler
+          </button>
+          <button type="submit" class="btn btn-primary"
+                  [disabled]="coursForm.invalid">
+            <i class="fas fa-save me-1"></i>
+            {{ isEditMode ? 'Modifier' : 'Créer' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

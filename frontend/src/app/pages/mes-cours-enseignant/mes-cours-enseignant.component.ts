@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { LoginService } from '../../services/login.service';
+import { CoursService } from 'src/app/services/cours.service';
 
 @Component({
   selector: 'app-mes-cours-enseignant',
@@ -9,26 +11,86 @@ import { LoginService } from '../../services/login.service';
 export class MesCoursEnseignantComponent implements OnInit {
   user: any;
   stats: any = {};
+  coursRecents: any[] = [];
+  coursService: any;
 
-  constructor(private loginService: LoginService) {}
+  constructor(
+    private loginService: LoginService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.user = this.loginService.getUserData();
     this.loadStats();
+    this.loadCoursRecents();
   }
 
   loadStats() {
-    // Pour l'instant, on initialise à 0
-    // Plus tard, on fera des appels API pour récupérer les vraies données
+    // Données simulées - à remplacer par appel API
     this.stats = {
-      coursCrees: 0,
-      etudiantsTotal: 0,
-      messagesNonLus: 0
+      coursCrees: this.coursService.getCoursByEnseignant(),
+      etudiantsTotal: 45,
+      messagesNonLus: 2
     };
-    
-    // Exemple de comment ça pourrait être plus tard :
-    // this.coursService.getTeacherStats(this.user.id).subscribe(stats => {
-    //   this.stats = stats;
-    // });
   }
+
+
+  // Modifiez également le chargement des cours récents
+loadCoursRecents() {
+  const enseignantId = parseInt(localStorage.getItem('id') || '0');
+  this.coursService.getCoursRecents(enseignantId).subscribe({
+    next: (cours: any[]) => {
+      this.coursRecents = cours;
+    },
+    error: (error: any) => {
+      console.error('Erreur chargement cours récents:', error);
+    }
+  });
+}
+
+  // loadCoursRecents() {
+  //   // Données simulées des cours récents
+  //   this.coursRecents = [
+  //     {
+  //       id: 1,
+  //       idEnseignant: localStorage['id'], // Correction : remplacé = par :
+  //       titre: 'Introduction à Angular',
+  //       description: 'Découverte des concepts fondamentaux',
+  //       datePublication: new Date('2024-01-15'),
+  //       estPublie: true
+  //     },
+  //     {
+  //       id: 2,
+  //       idEnseignant: localStorage['id'], // Ajout de la propriété manquante
+  //       titre: 'TypeScript Avancé',
+  //       description: 'Maîtrise des concepts avancés',
+  //       datePublication: new Date('2024-01-20'),
+  //       estPublie: true
+  //     }
+  //   ];
+  // }
+
+  naviguerVersMesCours() {
+    this.router.navigate(['/enseignant/mes-cours']);
+  }
+
+  creerNouveauCours() {
+    this.router.navigate(['/enseignant/nouveau-cours']);
+  }
+
+  formatDate(date: Date): string {
+    if (!date) return '';
+    const dateObj = new Date(date);
+    return dateObj.toLocaleDateString('fr-FR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+  }
+
+  naviguerVersDetailCours(coursId: number) {
+  this.router.navigate(['/cours', coursId]);
+}
+
+
 }
