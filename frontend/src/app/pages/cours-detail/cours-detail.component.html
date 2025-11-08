@@ -1,0 +1,111 @@
+<div class="container mt-4">
+  <!-- Bouton de retour -->
+  <div class="mb-4">
+    <button class="btn btn-outline-secondary" (click)="goBack()">
+      <i class="fas fa-arrow-left me-2"></i>Retour à mes cours
+    </button>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Chargement...</span>
+    </div>
+    <p class="mt-3 text-muted">Chargement du cours...</p>
+  </div>
+
+  <!-- Détails du cours -->
+  <div *ngIf="!isLoading && cours" class="row">
+    <div class="col-12">
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+          <h2 class="mb-0"><i class="fas fa-book me-2"></i>{{ cours.titre }}</h2>
+          <div class="btn-group">
+            <button class="btn btn-outline-light btn-sm me-2" (click)="openEditModal()">
+              <i class="fas fa-edit me-1"></i>Modifier
+            </button>
+            <button class="btn btn-outline-light btn-sm" (click)="openDeleteModal()">
+              <i class="fas fa-trash me-1"></i>Supprimer
+            </button>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <h4 class="text-primary">Description</h4>
+          <p>{{ cours.description }}</p>
+
+          <div class="row mt-4">
+            <div class="col-sm-6">
+              <p><i class="fas fa-calendar me-2"></i><strong>Date de création:</strong></p>
+              <p class="text-muted">{{ formatDate(cours.dateCreation) }}</p>
+            </div>
+            <div class="col-sm-6">
+              <p><i class="fas fa-user me-2"></i><strong>Enseignant:</strong></p>
+              <p class="text-muted">{{ getUserName() }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Supports -->
+      <div class="card shadow-sm">
+        <div class="card-header bg-secondary text-white">
+          <h5 class="mb-0"><i class="fas fa-download me-2"></i>Supports de cours</h5>
+        </div>
+        <div class="card-body">
+          <div *ngIf="getSupports().length > 0; else noSupports" class="row">
+            <div *ngFor="let support of getSupports()" class="col-md-6 col-lg-4 mb-3">
+              <div class="card text-center h-100">
+                <div class="card-body">
+                  <i [class]="getFileIcon(support) + ' fa-3x text-primary mb-3'"></i>
+                  <h5>{{ getFileType(support) }}</h5>
+                  <p class="small text-muted">{{ support }}</p>
+                  <button class="btn btn-outline-primary btn-sm" (click)="downloadSupport(support)">
+                    <i class="fas fa-download me-1"></i>Télécharger
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <ng-template #noSupports>
+            <div class="text-center py-4">
+              <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
+              <p class="text-muted">Aucun support disponible pour ce cours</p>
+              <button class="btn btn-outline-primary" (click)="openEditModal()">
+                <i class="fas fa-plus me-1"></i>Ajouter des supports
+              </button>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cours introuvable -->
+  <div *ngIf="!isLoading && !cours" class="text-center py-5">
+    <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+    <h4>Cours non trouvé</h4>
+    <p>Le cours que vous recherchez n'existe pas ou a été supprimé.</p>
+    <button class="btn btn-primary" (click)="goBack()">
+      <i class="fas fa-arrow-left me-1"></i>Retour à mes cours
+    </button>
+  </div>
+</div>
+
+<!-- Modaux -->
+<app-cours-modal
+  [showModal]="showEditModal"
+  [isEditMode]="true"
+  [cours]="cours"
+  (closeModal)="closeEditModal()"
+  (submitCours)="handleCoursSubmit($event)"
+  (fileChange)="handleFileChange($event)">
+</app-cours-modal>
+
+<app-delete-confirmation-modal
+  [showModal]="showDeleteModal"
+  [coursTitle]="cours?.titre || ''"
+  (closeModal)="closeDeleteModal()"
+  (confirmDelete)="handleDeleteConfirm()">
+</app-delete-confirmation-modal>

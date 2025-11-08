@@ -1,0 +1,146 @@
+<div class="container mt-4">
+  <!-- En-tête -->
+  <div class="header-section mb-4">
+    <div class="d-flex justify-content-between align-items-center flex-wrap">
+      <h1 class="welcome-title">Mes Cours</h1>
+      <button class="btn btn-create-course" (click)="openAddModal()">
+        <i class="fas fa-plus me-2"></i>Ajouter un cours 
+      </button>
+    </div>
+  </div>
+
+  <!-- Barre de recherche -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card search-card">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col-md-8">
+              <div class="input-group">
+                <span class="input-group-text bg-primary text-white">
+                  <i class="fas fa-search"></i>
+                </span>
+                <input type="text" 
+                       class="form-control" 
+                       placeholder="Rechercher un cours par titre..."
+                       [(ngModel)]="searchTerm"
+                       (input)="onSearchChange()"
+                       (keyup.enter)="rechercherCours()">
+              </div>
+            </div>
+            <div class="col-md-4 text-end">
+              <button class="btn btn-outline-secondary me-2" (click)="clearSearch()">
+                <i class="fas fa-times me-1"></i>Effacer
+              </button>
+              <button class="btn btn-primary" (click)="rechercherCours()">
+                <i class="fas fa-search me-1"></i>Rechercher
+              </button>
+            </div>
+          </div>
+          <!-- Indicateur de recherche -->
+          <div *ngIf="searchTerm" class="mt-2">
+            <small class="text-muted">
+              <i class="fas fa-info-circle me-1"></i>
+              Recherche : "{{ searchTerm }}" 
+              <span *ngIf="coursList.length > 0">- {{ getCoursFiltres().length }} résultat(s) trouvé(s)</span>
+              <span *ngIf="getCoursFiltres().length === 0">- Aucun résultat</span>
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Chargement...</span>
+    </div>
+    <p class="mt-2 text-muted">Chargement de vos cours...</p>
+  </div>
+
+  <!-- Liste des cours -->
+  <div *ngIf="!isLoading" class="row">
+    <div class="col-12">
+      <div class="cours-list">
+        <div *ngFor="let cours of getCoursFiltres()" class="cours-card mb-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <div class="row align-items-center">
+                <div class="col-md-8">
+                  <h2 class="card-title text-primary">{{ cours.titre }}</h2>
+                  <p class="card-text text-muted">{{ cours.description }}</p>
+                  
+                  <div class="cours-metadata mt-3">
+                    <span class="badge bg-info text-white">
+                      <i class="fas fa-file me-1"></i>
+                      {{ getSupportsCount(cours) }} support(s)
+                    </span>
+                  </div>
+                  
+                  <small class="text-muted mt-2 d-block">
+                    <i class="fas fa-calendar me-1"></i>
+                    Créé le {{ formatDate(cours.dateCreation) }}
+                  </small>
+                </div>
+                <div class="col-md-4 text-end">
+                  <div class="btn-group-vertical btn-group-sm" role="group">
+                    <button class="btn btn-outline-primary mb-2"
+                            (click)="navigateToCoursDetail(cours.id!)">
+                      <i class="fas fa-eye me-1"></i>Voir
+                    </button>
+                    <button class="btn btn-outline-secondary mb-2"
+                            (click)="openEditModal(cours)">
+                      <i class="fas fa-edit me-1"></i>Modifier
+                    </button>
+                    <button class="btn btn-outline-danger"
+                            (click)="openDeleteModal(cours)">
+                      <i class="fas fa-trash me-1"></i>Supprimer
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Message si aucun cours -->
+        <div *ngIf="getCoursFiltres().length === 0 && !searchTerm" class="text-center py-5">
+          <i class="fas fa-book-open fa-3x mb-3 text-muted"></i>
+          <p class="text-muted">Aucun cours créé pour le moment</p>
+          <button class="btn btn-create-course" (click)="openAddModal()">
+            <i class="fas fa-plus me-2"></i>Créer votre premier cours
+          </button>
+        </div>
+
+        <!-- Message si aucun résultat de recherche -->
+        <div *ngIf="getCoursFiltres().length === 0 && searchTerm" class="text-center py-5">
+          <i class="fas fa-search fa-3x mb-3 text-muted"></i>
+          <h4 class="text-muted">Aucun cours trouvé</h4>
+          <p class="text-muted mb-3">Aucun cours ne correspond à votre recherche "{{ searchTerm }}"</p>
+          <button class="btn btn-outline-primary" (click)="clearSearch()">
+            <i class="fas fa-times me-1"></i>Effacer la recherche
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal d'édition/ajout de cours -->
+<app-cours-modal
+  [showModal]="showCoursModal"
+  [isEditMode]="isEditMode"
+  [cours]="currentCours"
+  (closeModal)="closeCoursModal()"
+  (submitCours)="handleCoursSubmit($event)"
+  (fileChange)="handleFileChange($event)">
+</app-cours-modal>
+
+<!-- Modal de confirmation de suppression -->
+<app-delete-confirmation-modal
+  [showModal]="showDeleteModal"
+  [coursTitle]="coursToDelete?.titre || ''"
+  (closeModal)="closeDeleteModal()"
+  (confirmDelete)="handleDeleteConfirm()">
+</app-delete-confirmation-modal>

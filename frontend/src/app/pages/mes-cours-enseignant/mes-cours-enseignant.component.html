@@ -2,8 +2,8 @@
   <!-- En-tête avec salutation -->
   <div class="header-section mb-5">
     <h1 class="welcome-title">Bonjour, Prof. {{ user?.prenom }} {{ user?.nom }} !</h1>
-    <button class="btn btn-create-course">
-      <i class="fas fa-plus me-2"></i>Créer un cours
+    <button class="btn btn-create-course" routerLink="/enseignant/mes-cours">
+      <i class="fas fa-book me-2"></i>Gérer mes cours
     </button>
   </div>
 
@@ -49,15 +49,35 @@
     </div>
   </div>
 
-  <!-- Section cours récents (optionnelle) -->
+  <!-- Section cours récents -->
   <div class="recent-courses-section">
-    <h3 class="section-title">Cours récents</h3>
-    <div class="no-courses-placeholder">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h3 class="section-title">Cours récents</h3>
+      <button class="btn btn-outline-primary btn-sm" routerLink="/enseignant/mes-cours">
+        Voir tous
+      </button>
+    </div>
+    
+    <div *ngIf="coursRecents.length > 0" class="row">
+      <div *ngFor="let cours of coursRecents" class="col-md-6 col-lg-4 mb-4">
+        <div class="card h-100 shadow-sm cours-card" (click)="naviguerVersDetailCours(cours.id)">
+          <div class="card-body">
+            <h5 class="card-title">{{ cours.titre }}</h5>
+            <p class="card-text text-muted">{{ cours.description | slice:0:100 }}...</p>
+            <small class="text-muted">
+              {{ formatDate(cours.datePublication) }}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="coursRecents.length === 0" class="no-courses-placeholder">
       <i class="fas fa-book-open fa-3x mb-3 text-muted"></i>
       <p class="text-muted">Aucun cours créé pour le moment</p>
-      <button class="btn btn-create-course-outline">
+      <!-- <button class="btn btn-create-course-outline" routerLink="/enseignant/mes-cours">
         <i class="fas fa-plus me-2"></i>Créer votre premier cours
-      </button>
+      </button> -->
     </div>
   </div>
 </div>
