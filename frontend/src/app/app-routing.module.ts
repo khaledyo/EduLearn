@@ -11,6 +11,7 @@ import { CoursDetailComponent } from './pages/cours-detail/cours-detail.componen
 import { ConsultationCoursEnsComponent } from './pages/consultation-cours-ens/consultation-cours-ens.component';
 import { CatalogueCoursComponent } from './pages/catalogue-cours/catalogue-cours.component';
 import { CoursDetailEtudiantComponent } from './pages/cours-detail-etudiant/cours-detail-etudiant.component';
+import { ContactComponent } from './pages/contact/contact.component';
 
 const routes: Routes = [
   { path: '', component: AccueilComponent},
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'mes-cours-etudiant', component: MesCoursEtudiantComponent, canActivate: [AuthGuard] },
   { path: 'enseignant/mes-cours', component: ConsultationCoursEnsComponent, canActivate: [AuthGuard] },
   { path: 'mes-cours-enseignant', component: MesCoursEnseignantComponent, canActivate: [AuthGuard] },
+  { path: 'contact', component: ContactComponent },
   { path: 'mot-de-passe-oublie', component: ForgotPasswordComponent },
   { path: 'cours/:id', component: CoursDetailComponent, canActivate: [AuthGuard] },
   { path: 'catalogue-cours', component: CatalogueCoursComponent, canActivate: [AuthGuard] },
