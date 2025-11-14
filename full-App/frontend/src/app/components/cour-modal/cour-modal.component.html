@@ -1,0 +1,88 @@
+<div *ngIf="showModal" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">
+        <i class="fas fa-book me-2"></i>
+        {{ isEditMode ? 'Modifier le cours' : 'Créer un nouveau cours' }}
+      </h5>
+      <button type="button" class="btn-close" (click)="onClose()" aria-label="Close"></button>
+    </div>
+
+    <div class="modal-body">
+      <form [formGroup]="coursForm" (ngSubmit)="onSubmit()">
+
+        <!-- Title -->
+        <div class="mb-3">
+          <label for="title" class="form-label">Titre du cours</label>
+          <input type="text" class="form-control" id="title"
+                 formControlName="title"
+                 [class.is-invalid]="title?.invalid && title?.touched"
+                 placeholder="Entrez le titre du cours">
+          <div class="invalid-feedback" *ngIf="title?.invalid && title?.touched">
+            <span *ngIf="title?.errors?.['required']">Le titre est requis</span>
+            <span *ngIf="title?.errors?.['minlength']">
+              Le titre doit faire au moins 3 caractères
+            </span>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea class="form-control" id="description" rows="4"
+                    formControlName="description"
+                    [class.is-invalid]="description?.invalid && description?.touched"
+                    placeholder="Décrivez le contenu de votre cours"></textarea>
+          <div class="invalid-feedback" *ngIf="description?.invalid && description?.touched">
+            <span *ngIf="description?.errors?.['required']">La description est requise</span>
+            <span *ngIf="description?.errors?.['minlength']">
+              La description doit faire au moins 10 caractères
+            </span>
+          </div>
+        </div>
+
+        <!-- Support Files -->
+        <div class="mb-3">
+          <label for="supportFiles" class="form-label">
+            <i class="fas fa-file-upload me-1"></i>Supports de cours (Fichiers)
+          </label>
+          <input type="file" 
+                 class="form-control" 
+                 id="supportFiles"
+                 (change)="onFilesSelected($event)"
+                 multiple
+                 accept=".pdf,.mp4,.avi,.mov,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.zip,.rar,.jpg,.jpeg,.png,.gif">
+          <div class="form-text">
+            <i class="fas fa-info-circle me-1"></i>
+            Sélectionnez un ou plusieurs fichiers. Formats acceptés: PDF, Vidéos (MP4, AVI, MOV), Documents (DOC, DOCX, PPT, PPTX, XLS, XLSX), Images (JPG, PNG, GIF), Archives (ZIP, RAR)
+          </div>
+          
+          <!-- Selected files list -->
+          <div *ngIf="selectedFiles.length > 0" class="mt-3">
+            <div class="alert alert-info">
+              <strong>Fichiers sélectionnés ({{ selectedFiles.length }}):</strong>
+              <ul class="mb-0 mt-2">
+                <li *ngFor="let file of selectedFiles">
+                  <i class="fas fa-file me-1"></i>{{ file.name }} 
+                  <small class="text-muted">({{ formatFileSize(file.size) }})</small>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Boutons -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="onClose()">
+            <i class="fas fa-times me-1"></i>Annuler
+          </button>
+          <button type="submit" class="btn btn-primary"
+                  [disabled]="coursForm.invalid">
+            <i class="fas fa-save me-1"></i>
+            {{ isEditMode ? 'Modifier' : 'Créer' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

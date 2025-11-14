@@ -1,0 +1,103 @@
+<div *ngIf="showModal" class="modal-overlay">
+  <div class="modal-content large-modal">
+    <div class="modal-header">
+      <h5 class="modal-title">
+        <i class="fas fa-file-alt me-2"></i>
+        Résultats de l'Examen: {{ exam?.title }}
+      </h5>
+      <button type="button" class="btn-close" (click)="onClose()" aria-label="Close"></button>
+    </div>
+
+    <div class="modal-body">
+      <div *ngIf="isLoading" class="text-center py-4">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Chargement...</span>
+        </div>
+      </div>
+
+      <div *ngIf="!isLoading">
+        <div *ngIf="results.length > 0; else noResults">
+          <div class="alert alert-info mb-3">
+            <i class="fas fa-info-circle me-2"></i>
+            <strong>{{ results.length }}</strong> étudiant(s) ont passé cet examen.
+            Veuillez lire leurs réponses et attribuer un score pour chaque étudiant.
+          </div>
+
+          <div *ngFor="let result of results; let i = index" class="card mb-4">
+            <div class="card-header bg-light">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="mb-0">
+                    <i class="fas fa-user me-2"></i>
+                    {{ result.student?.name || 'N/A' }}
+                    <small class="text-muted">({{ result.student?.email || 'N/A' }})</small>
+                  </h6>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                  <div>
+                    <label class="form-label small mb-0">Score:</label>
+                    <form [formGroup]="getScoreForm(result.id)" (ngSubmit)="updateScore(result.id)" class="d-flex gap-2">
+                      <input 
+                        type="number" 
+                        class="form-control form-control-sm" 
+                        style="width: 80px;"
+                        formControlName="score"
+                        min="0"
+                        max="20">
+                      <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="fas fa-save"></i>
+                      </button>
+                    </form>
+                  </div>
+                  <div>
+                    <span class="badge bg-secondary">
+                      {{ result.score }} / 20
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h6 class="mb-3">Réponses de l'étudiant:</h6>
+              <div *ngFor="let question of exam?.questions; let qIndex = index" class="mb-4">
+                <div class="border rounded p-3">
+                  <div class="mb-2">
+                    <strong>
+                      <span class="badge bg-warning me-2">Q{{ qIndex + 1 }}</span>
+                      {{ question.question }}
+                    </strong>
+                  </div>
+                  <div class="mt-2">
+                    <div class="alert alert-light mb-0">
+                      <strong>Réponse de l'étudiant:</strong>
+                      <p class="mb-0 mt-1">{{ getAnswerForQuestion(result, question.id!) }}</p>
+                    </div>
+                    <div *ngIf="question.correct_answer" class="mt-2">
+                      <small class="text-muted">
+                        <i class="fas fa-lightbulb me-1"></i>
+                        <strong>Référence:</strong> {{ question.correct_answer }}
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #noResults>
+          <div class="alert alert-warning">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            Aucun étudiant n'a encore passé cet examen.
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="onClose()">
+        <i class="fas fa-times me-1"></i>Fermer
+      </button>
+    </div>
+  </div>
+</div>
+

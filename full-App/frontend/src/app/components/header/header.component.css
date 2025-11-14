@@ -1,0 +1,229 @@
+.navbar-custom {
+  background-color: white;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  padding: 15px 0;
+  border-radius: 0 0 8px 8px;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  letter-spacing: 0.5px;
+  color: rgb(37, 99, 235) !important;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navbar-brand:hover {
+  color: rgb(37, 99, 235) !important;
+  transform: translateY(-1px);
+}
+
+.logo-img {
+  height: 50px;
+  width: auto;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.navbar-brand:hover .logo-img {
+  transform: scale(1.05);
+}
+
+/* Liens de navigation centraux - Style normal (non actif) */
+.nav-link {
+  color: #6b7280 !important;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 8px 16px !important;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  position: relative;
+  border: 2px solid transparent;
+}
+
+.nav-link:hover {
+  color: #3b82f6 !important;
+  background-color: rgba(59, 130, 246, 0.05);
+  transform: translateY(-1px);
+}
+
+/* Style pour les liens ACTIFS (selected) */
+.nav-link.active {
+  color: rgb(37, 99, 235) !important;
+  
+  background-color: rgba(37, 99, 235, 0.1);
+  
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 3px;
+  background: linear-gradient(135deg, rgb(37, 99, 235), rgb(59, 130, 246));
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+/* Boutons Connexion/Inscription/Déconnexion */
+.login-btn,
+.signup-btn,
+.logout-btn {
+  color: rgb(37, 99, 235) !important;
+  border: 2px solid rgb(37, 99, 235);
+  border-radius: 6px;
+  padding: 8px 20px !important;
+  margin: 0 5px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  background-color: transparent;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.login-btn:hover,
+.signup-btn:hover,
+.logout-btn:hover {
+  background: linear-gradient(135deg, rgb(37, 99, 235), rgb(59, 130, 246)) !important;
+  color: white !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  border-color: rgb(37, 99, 235);
+}
+
+.login-btn.active,
+.signup-btn.active {
+  background: linear-gradient(135deg, rgb(37, 99, 235), rgb(59, 130, 246));
+  color: white !important;
+  border-color: rgb(37, 99, 235);
+}
+
+/* Style spécifique pour le bouton Déconnexion quand actif */
+.logout-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+}
+
+/* Séparateur */
+.separator {
+  color: #d1d5db !important;
+  pointer-events: none;
+  padding: 8px 5px !important;
+  margin: 0 !important;
+  border: none !important;
+  background: none !important;
+  font-weight: 300;
+}
+
+/* Toggler pour mobile */
+.navbar-toggler {
+  border: 2px solid rgb(37, 99, 235);
+  padding: 4px 8px;
+  transition: all 0.3s ease;
+}
+
+.navbar-toggler:hover {
+  background-color: rgba(37, 99, 235, 0.1);
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(37, 99, 235, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  transition: all 0.3s ease;
+}
+
+/* Responsive */
+@media (max-width: 991.98px) {
+  .navbar-collapse {
+    background: white;
+    border-radius: 8px;
+    margin-top: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+  }
+  
+  .nav-item {
+    margin: 5px 0 !important;
+  }
+  
+  .navbar-nav.flex-row {
+    flex-direction: row !important;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .login-btn,
+  .signup-btn,
+  .logout-btn {
+    margin: 5px;
+    text-align: center;
+    width: 100%;
+    max-width: 200px;
+  }
+
+  .logo-img {
+    height: 30px;
+  }
+  
+  .navbar-brand {
+    font-size: 1.3rem;
+  }
+
+  .nav-link.active::after {
+    bottom: -5px;
+    width: 25px;
+  }
+}
+
+@media (max-width: 576px) {
+  .logo-img {
+    height: 25px;
+  }
+  
+  .navbar-brand {
+    font-size: 1.2rem;
+    gap: 8px;
+  }
+
+  .nav-link {
+    padding: 6px 12px !important;
+    font-size: 0.9rem;
+  }
+
+  .login-btn,
+  .signup-btn,
+  .logout-btn {
+    padding: 6px 16px !important;
+    font-size: 0.9rem;
+  }
+}
+
+/* Animation smooth pour le dropdown mobile */
+.navbar-collapse {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Effet de pulse pour les liens actifs */
+@keyframes pulse-active {
+  0% {
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+  }
+  50% {
+    box-shadow: 0 4px 16px rgba(37, 99, 235, 0.25);
+  }
+  100% {
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+  }
+}
+
+.nav-link.active {
+  animation: pulse-active 2s ease-in-out infinite;
+}

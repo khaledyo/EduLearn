@@ -1,0 +1,372 @@
+.container {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  padding-bottom: 40px;
+}
+
+/* Header Section */
+h3 {
+  color: #333;
+  font-weight: 600;
+  border-bottom: 3px solid #dc3545;
+  padding-bottom: 10px;
+}
+
+.text-muted {
+  font-size: 0.95rem;
+}
+
+/* Card Styling */
+.card {
+  border: none;
+  border-radius: 8px;
+  transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.card-header {
+  border-radius: 8px 8px 0 0;
+  font-weight: 600;
+  padding: 1.2rem;
+}
+
+.card-header h5 {
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* Answer Items */
+.answer-item {
+  padding: 1.5rem;
+  background-color: #fff;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+  transition: border-color 0.3s ease;
+}
+
+.answer-item:hover {
+  border-color: #dc3545;
+}
+
+.question-header {
+  margin-bottom: 1rem;
+}
+
+.question-text h6 {
+  font-weight: 600;
+  color: #0d47a1;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.student-answer {
+  margin-top: 1rem;
+}
+
+.answer-box {
+  background-color: #f8f9fa !important;
+  border-left: 4px solid #dc3545;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.answer-box p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.answer-box .text-muted {
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+/* Score Section */
+.input-group-lg .form-control {
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.input-group-lg .input-group-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  background-color: #e9ecef;
+}
+
+.form-label {
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+}
+
+/* Alert Messages */
+.alert {
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  font-size: 0.95rem;
+  animation: slideIn 0.3s ease;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+}
+
+.alert-danger i {
+  color: #dc3545;
+}
+
+.alert-info {
+  background-color: #d1ecf1;
+  border: 1px solid #bee5eb;
+  color: #0c5460;
+}
+
+.alert-info i {
+  color: #0c5460;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Buttons */
+.btn {
+  border-radius: 6px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  padding: 0.75rem 1.5rem;
+}
+
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.btn-success:hover:not(:disabled) {
+  background-color: #218838;
+  border-color: #1e7e34;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.btn-outline-secondary {
+  border-color: #6c757d;
+  color: #6c757d;
+}
+
+.btn-outline-secondary:hover:not(:disabled) {
+  background-color: #6c757d;
+  border-color: #5a6268;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.gap-2 {
+  gap: 0.75rem;
+}
+
+/* Badge */
+.badge {
+  font-weight: 600;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+}
+
+.badge.bg-secondary {
+  background-color: #6c757d !important;
+}
+
+.badge.bg-info {
+  margin-left: 0.5rem;
+  background-color: #17a2b8 !important;
+}
+
+/* Spinner */
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+  border-width: 0.3em;
+}
+
+.spinner-border-sm {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .col-lg-9 {
+    flex: 0 0 100% !important;
+  }
+
+  .d-flex {
+    flex-direction: column;
+  }
+
+  .d-flex.justify-content-between {
+    gap: 1rem;
+  }
+
+  .btn-lg {
+    width: 100%;
+  }
+
+  .gap-2 {
+    gap: 0.5rem;
+    flex-direction: column;
+  }
+
+  .gap-2 .btn {
+    width: 100%;
+  }
+
+  .answer-item {
+    padding: 1rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+  }
+
+  .card-header h5 {
+    font-size: 1rem;
+  }
+
+  .input-group-lg .form-control,
+  .input-group-lg .input-group-text {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  h3 {
+    font-size: 1.25rem;
+  }
+
+  .question-text h6 {
+    font-size: 0.95rem;
+  }
+
+  .answer-box {
+    font-size: 0.9rem;
+  }
+
+  .btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .btn-lg {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .alert {
+    font-size: 0.85rem;
+  }
+}
+
+/* Loading State */
+.text-center {
+  text-align: center;
+}
+
+.py-5 {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.mt-4 {
+  margin-top: 2rem;
+}
+
+.mb-4 {
+  margin-bottom: 2rem;
+}
+
+.mb-3 {
+  margin-bottom: 1rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.mb-1 {
+  margin-bottom: 0.25rem;
+}
+
+.mb-0 {
+  margin-bottom: 0;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.mt-3 {
+  margin-top: 1rem;
+}
+
+.me-2 {
+  margin-right: 0.5rem;
+}
+
+.ms-2 {
+  margin-left: 0.5rem;
+}
+
+/* Icons */
+i.fa-icons {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Accessibility */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Focus States */
+.form-control:focus,
+.btn:focus {
+  outline: 2px solid #dc3545;
+  outline-offset: 2px;
+}

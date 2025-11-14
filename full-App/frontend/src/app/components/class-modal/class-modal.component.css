@@ -1,0 +1,184 @@
+/* === Overlay === */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(17, 25, 40, 0.65);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* === Modal Container === */
+.modal-content {
+  background: #ffffff;
+  border-radius: 18px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+  animation: modalAppear 0.35s ease-out;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.modal-content:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 50px rgba(0, 0, 0, 0.3);
+}
+
+/* === Header === */
+.modal-header {
+  padding: 1.2rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, #0084ff, #00c6ff);
+  color: white;
+  border-radius: 15px 15px 0 0;
+  box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.modal-title {
+  margin: 0;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Close button hover effect */
+.btn-close {
+  filter: brightness(0) invert(1);
+  opacity: 0.8;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.btn-close:hover {
+  opacity: 1;
+  transform: rotate(90deg) scale(1.1);
+}
+
+/* === Body === */
+.modal-body {
+  padding: 1.5rem;
+  background: linear-gradient(180deg, #f9fafc, #ffffff);
+}
+
+/* Inputs & Textareas */
+.form-control {
+  border-radius: 10px;
+  border: 1px solid #ced4da;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #0084ff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 132, 255, 0.25);
+}
+
+/* Helper Text */
+.form-text {
+  color: #6c757d;
+  font-size: 0.875rem;
+}
+
+/* Validation styles */
+.is-invalid {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.invalid-feedback {
+  display: block;
+  font-size: 0.875rem;
+}
+
+/* === Footer === */
+.modal-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e9ecef;
+  border-radius: 0 0 15px 15px;
+  background-color: #f8f9fa;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* === Buttons === */
+.btn-primary {
+  background: linear-gradient(45deg, #0084ff, #00c6ff);
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  padding: 0.6rem 1.4rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 132, 255, 0.3);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(45deg, #00a2ff, #33d6ff);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 132, 255, 0.4);
+}
+
+.btn-secondary {
+  background: #f0f0f0;
+  border: none;
+  border-radius: 50px;
+  font-weight: 500;
+  color: #555;
+  padding: 0.6rem 1.4rem;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: #e2e6ea;
+  color: #000;
+  transform: translateY(-2px);
+}
+
+/* === Animations === */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalAppear {
+  from {
+    opacity: 0;
+    transform: translateY(-40px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    margin: 1rem;
+  }
+
+  .modal-title {
+    font-size: 1rem;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    padding: 0.5rem 1.2rem;
+  }
+}
+
+label {
+    font-size: 20px;
+    font-weight: bold;
+}
+

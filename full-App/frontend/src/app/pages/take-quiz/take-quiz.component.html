@@ -1,0 +1,213 @@
+<div class="container mt-4">
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Chargement...</span>
+    </div>
+    <p class="mt-3 text-muted">Chargement du quiz...</p>
+  </div>
+
+  <!-- Quiz Content -->
+  <div *ngIf="!isLoading && !showResult && quiz && questions.length > 0" class="row">
+    <div class="col-lg-8">
+      <!-- Question Card -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-info text-white">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">{{ quiz!.title }}</h5>
+            <span class="badge bg-light text-dark">
+              Question {{ currentQuestionIndex + 1 }} / {{ totalQuestions }}
+            </span>
+          </div>
+        </div>
+        <div class="card-body">
+          <!-- Progress Bar -->
+          <div class="mb-4">
+            <div class="progress" style="height: 8px;">
+              <div class="progress-bar bg-info" 
+                   [style.width.%]="((currentQuestionIndex + 1) / totalQuestions) * 100">
+              </div>
+            </div>
+            <small class="text-muted d-block mt-2">
+              {{ currentQuestionIndex + 1 }} de {{ totalQuestions }} questions complétées
+            </small>
+          </div>
+
+          <!-- Current Question -->
+          <div *ngIf="getCurrentQuestion() as question" class="question-container">
+            <h4 class="text-primary mb-4">{{ question.question }}</h4>
+
+            <!-- Answer Options -->
+            <div class="options-list">
+              <div class="option mb-3">
+                <button class="btn w-100 text-start p-3"
+                        [class.btn-primary]="isAnswerSelected('a')"
+                        [class.btn-outline-secondary]="!isAnswerSelected('a')"
+                        (click)="selectAnswer('a')">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" [checked]="isAnswerSelected('a')">
+                    <label class="form-check-label w-100">
+                      <strong>A.</strong> {{ question.option_a }}
+                    </label>
+                  </div>
+                </button>
+              </div>
+
+              <div class="option mb-3">
+                <button class="btn w-100 text-start p-3"
+                        [class.btn-primary]="isAnswerSelected('b')"
+                        [class.btn-outline-secondary]="!isAnswerSelected('b')"
+                        (click)="selectAnswer('b')">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" [checked]="isAnswerSelected('b')">
+                    <label class="form-check-label w-100">
+                      <strong>B.</strong> {{ question.option_b }}
+                    </label>
+                  </div>
+                </button>
+              </div>
+
+              <div class="option mb-3">
+                <button class="btn w-100 text-start p-3"
+                        [class.btn-primary]="isAnswerSelected('c')"
+                        [class.btn-outline-secondary]="!isAnswerSelected('c')"
+                        (click)="selectAnswer('c')">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" [checked]="isAnswerSelected('c')">
+                    <label class="form-check-label w-100">
+                      <strong>C.</strong> {{ question.option_c }}
+                    </label>
+                  </div>
+                </button>
+              </div>
+
+              <div class="option mb-3">
+                <button class="btn w-100 text-start p-3"
+                        [class.btn-primary]="isAnswerSelected('d')"
+                        [class.btn-outline-secondary]="!isAnswerSelected('d')"
+                        (click)="selectAnswer('d')">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" [checked]="isAnswerSelected('d')">
+                    <label class="form-check-label w-100">
+                      <strong>D.</strong> {{ question.option_d }}
+                    </label>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Navigation Buttons -->
+          <div class="d-flex justify-content-between mt-4">
+            <button class="btn btn-outline-secondary"
+                    [disabled]="!canProceedPrev()"
+                    (click)="previousQuestion()">
+              <i class="fas fa-arrow-left me-2"></i>Précédent
+            </button>
+
+            <button class="btn btn-outline-primary"
+                    [disabled]="!canProceedNext()"
+                    (click)="nextQuestion()"
+                    *ngIf="canProceedNext()">
+              Suivant<i class="fas fa-arrow-right ms-2"></i>
+            </button>
+
+            <button class="btn btn-success"
+                    (click)="submitQuiz()"
+                    [disabled]="isSubmitting"
+                    *ngIf="!canProceedNext()">
+              <i class="fas fa-check me-2"></i>
+              {{ isSubmitting ? 'Soumission...' : 'Soumettre le quiz' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-lg-4">
+      <div class="card shadow-sm sticky-top" style="top: 20px;">
+        <div class="card-header bg-light">
+          <h6 class="mb-0">
+            <i class="fas fa-list me-2"></i>Navigation
+          </h6>
+        </div>
+        <div class="card-body">
+          <div class="mb-3">
+            <p class="small text-muted mb-2">
+              <i class="fas fa-check-circle me-1 text-success"></i>
+              Réponses: {{ getAnsweredCount() }} / {{ totalQuestions }}
+            </p>
+          </div>
+
+          <div class="question-nav-grid mb-3">
+            <button *ngFor="let i of [].constructor(totalQuestions); let idx = index"
+                    class="btn btn-sm me-1 mb-1"
+                    [class.btn-success]="answers[questions[idx].id!] !== ''"
+                    [class.btn-outline-secondary]="answers[questions[idx].id!] === ''"
+                    [class.active]="currentQuestionIndex === idx"
+                    (click)="currentQuestionIndex = idx">
+              {{ idx + 1 }}
+            </button>
+          </div>
+
+          <hr>
+
+          <div class="text-center">
+            <button class="btn btn-outline-danger w-100" (click)="goBack()">
+              <i class="fas fa-times me-2"></i>Abandonner
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Result Screen -->
+  <div *ngIf="!isLoading && showResult && quizResult" class="row">
+    <div class="col-lg-8 mx-auto">
+      <div class="card shadow-sm border-success">
+        <div class="card-header bg-success text-white text-center">
+          <h4 class="mb-0">
+            <i class="fas fa-check-circle me-2"></i>Quiz Complété!
+          </h4>
+        </div>
+        <div class="card-body text-center py-5">
+          <div class="display-1 text-success mb-3">
+            {{ quizResult!.score }} / {{ quizResult!.total }}
+          </div>
+          <h5 class="mb-4">
+            Vous avez obtenu {{ quizResult!.score }} bonne(s) réponse(s) sur {{ quizResult!.total }}
+          </h5>
+          <p class="text-muted mb-4">
+            Pourcentage: <strong>{{ ((quizResult!.score / quizResult!.total) * 100).toFixed(1) }}%</strong>
+          </p>
+
+          <div class="alert alert-info mb-4">
+            <i class="fas fa-info-circle me-2"></i>
+            Votre score a été enregistré. Vous pouvez accéder à vos résultats dans votre profil.
+          </div>
+
+          <div class="d-flex gap-2 justify-content-center">
+            <button class="btn btn-primary" (click)="goToCourse()" *ngIf="courseId">
+              <i class="fas fa-book me-2"></i>Retour au cours
+            </button>
+            <button class="btn btn-outline-secondary" (click)="goBack()">
+              <i class="fas fa-arrow-left me-2"></i>Retour
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Questions Error -->
+  <div *ngIf="!isLoading && questions.length === 0" class="text-center py-5">
+    <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+    <h4 class="text-muted">Aucune question disponible</h4>
+    <p class="text-muted">Ce quiz n'a pas de questions.</p>
+    <button class="btn btn-primary" (click)="goBack()">
+      <i class="fas fa-arrow-left me-1"></i>Retour
+    </button>
+  </div>
+</div>

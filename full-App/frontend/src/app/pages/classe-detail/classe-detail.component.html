@@ -1,0 +1,217 @@
+<div class="container mt-4">
+  <!-- Bouton de retour -->
+  <div class="mb-4">
+    <button class="btn btn-outline-secondary" (click)="goBack()">
+      <i class="fas fa-arrow-left me-2"></i>Retour à mes classes
+    </button>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Chargement...</span>
+    </div>
+    <p class="mt-3 text-muted">Chargement de la classe...</p>
+  </div>
+
+  <!-- Détails de la classe -->
+  <div *ngIf="!isLoading && classe" class="row">
+    <div class="col-12">
+      <!-- En-tête de la classe -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+          <h2 class="mb-0">
+            <i class="fas fa-users me-2"></i>{{ classe.name }}
+          </h2>
+          <div class="btn-group" *ngIf="isTeacher">
+            <button class="btn btn-outline-light btn-sm me-2" (click)="openCreateCourseModal()">
+              <i class="fas fa-book me-1"></i>Créer un cours
+            </button>
+            <button class="btn btn-outline-light btn-sm me-2" (click)="openEditModal()">
+              <i class="fas fa-edit me-1"></i>Modifier
+            </button>
+            <button class="btn btn-outline-light btn-sm" (click)="openDeleteModal()">
+              <i class="fas fa-trash me-1"></i>Supprimer
+            </button>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <!-- Description -->
+          <div class="mb-4">
+            <h4 class="text-primary">
+              <i class="fas fa-info-circle me-2"></i>Description
+            </h4>
+            <p *ngIf="classe.description" class="text-muted">{{ classe.description }}</p>
+            <p *ngIf="!classe.description" class="text-muted fst-italic">Aucune description disponible</p>
+          </div>
+
+          <!-- Informations -->
+          <div class="row mt-4">
+            <div class="col-md-4">
+              <p class="mb-2">
+                <i class="fas fa-users me-2 text-primary"></i>
+                <strong>Nombre d'étudiants:</strong>
+              </p>
+              <p class="text-muted">{{ classe.students_count || 0 }} étudiant(s)</p>
+            </div>
+            <div class="col-md-4">
+              <p class="mb-2">
+                <i class="fas fa-calendar me-2 text-primary"></i>
+                <strong>Date de création:</strong>
+              </p>
+              <p class="text-muted">{{ formatDate(classe.created_at) }}</p>
+            </div>
+            <div class="col-md-4">
+              <p class="mb-2">
+                <i class="fas fa-user-tie me-2 text-primary"></i>
+                <strong>Enseignant:</strong>
+              </p>
+              <p class="text-muted">{{ user?.prenom }} {{ user?.nom }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Liste des cours de la classe -->
+      <div class="card shadow-sm mb-4" *ngIf="isTeacher">
+        <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">
+            <i class="fas fa-book me-2"></i>Cours de la classe
+            <span class="badge bg-light text-dark ms-2">{{ courses.length }}</span>
+          </h5>
+        </div>
+        <div class="card-body">
+          <div *ngIf="isLoadingCourses" class="text-center py-3">
+            <div class="spinner-border spinner-border-sm text-primary" role="status">
+              <span class="visually-hidden">Chargement...</span>
+            </div>
+            <p class="text-muted mt-2">Chargement des cours...</p>
+          </div>
+
+          <div *ngIf="!isLoadingCourses && courses.length > 0" class="row">
+            <div *ngFor="let c of courses" class="col-md-6 col-lg-4 mb-3">
+              <div class="card h-100 shadow-sm cours-card" (click)="navigateToCoursDetail(c.id)">
+                <div class="card-body">
+                  <h6 class="card-title">{{ c.title || c.titre }}</h6>
+                  <p class="card-text text-muted small">{{ c.description | slice:0:80 }}...</p>
+                  <small class="text-muted">
+                    <i class="fas fa-calendar me-1"></i>
+                    {{ formatDate(c.created_at || c.dateCreation) }}
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="!isLoadingCourses && courses.length === 0" class="text-center py-4">
+            <i class="fas fa-book-open fa-2x text-muted mb-3"></i>
+            <p class="text-muted">Aucun cours dans cette classe pour le moment</p>
+            <button class="btn btn-primary btn-sm" (click)="openCreateCourseModal()">
+              <i class="fas fa-plus me-1"></i>Créer un cours
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Liste des étudiants -->
+      <div class="card shadow-sm">
+        <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">
+            <i class="fas fa-user-graduate me-2"></i>Étudiants inscrits
+            <span class="badge bg-light text-dark ms-2">{{ students.length }}</span>
+          </h5>
+          <button *ngIf="isTeacher" class="btn btn-light btn-sm" (click)="openInviteModal()">
+            <i class="fas fa-user-plus me-1"></i>Inviter un étudiant
+          </button>
+        </div>
+
+        <div class="card-body">
+          <!-- Loading students -->
+          <div *ngIf="isLoadingStudents" class="text-center py-3">
+            <div class="spinner-border spinner-border-sm text-primary" role="status">
+              <span class="visually-hidden">Chargement...</span>
+            </div>
+            <p class="mt-2 text-muted small">Chargement des étudiants...</p>
+          </div>
+
+          <!-- Students list -->
+          <div *ngIf="!isLoadingStudents">
+            <div *ngIf="students.length > 0" class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let student of students">
+                    <td>
+                      <i class="fas fa-user me-2 text-primary"></i>
+                      {{ student.name || student.prenom + ' ' + student.nom || 'Étudiant' }}
+                    </td>
+                    <td>
+                      <i class="fas fa-envelope me-2 text-muted"></i>
+                      {{ student.email || 'N/A' }}
+                    </td>
+                    <td>
+                      <button 
+                        *ngIf="isTeacher" 
+                        class="btn btn-sm btn-outline-danger"
+                        (click)="removeStudent(student.id, student.name || student.prenom + ' ' + student.nom)"
+                        title="Retirer de la classe">
+                        <i class="fas fa-user-minus me-1"></i>Retirer
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div *ngIf="students.length === 0" class="text-center py-5">
+              <i class="fas fa-user-slash fa-3x mb-3 text-muted"></i>
+              <p class="text-muted">Aucun étudiant inscrit dans cette classe pour le moment</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal d'invitation d'étudiant -->
+<app-invite-student-modal
+  [showModal]="showInviteModal"
+  [classId]="classe?.id"
+  (closeModal)="closeInviteModal()"
+  (studentAdded)="handleStudentAdded($event)">
+</app-invite-student-modal>
+
+<!-- Modal d'édition de classe -->
+<app-class-modal
+  [showModal]="showEditModal"
+  [isEditMode]="true"
+  [classe]="classe"
+  (closeModal)="closeEditModal()"
+  (submitClass)="handleClassUpdate($event)">
+</app-class-modal>
+
+<!-- Modal de création de cours pour la classe -->
+<app-cours-modal
+  [showModal]="showCreateCourseModal"
+  [isEditMode]="false"
+  [cours]="null"
+  (closeModal)="closeCreateCourseModal()"
+  (submitCours)="handleCourseCreate($event)">
+</app-cours-modal>
+
+<!-- Modal de confirmation de suppression -->
+<app-delete-confirmation-modal
+  [showModal]="showDeleteModal"
+  [coursTitle]="classe?.name || ''"
+  (closeModal)="closeDeleteModal()"
+  (confirmDelete)="handleDeleteConfirm()">
+</app-delete-confirmation-modal>
+

@@ -1,0 +1,132 @@
+<div *ngIf="showModal" class="modal-overlay">
+  <div class="modal-content large-modal">
+    <div class="modal-header">
+      <h5 class="modal-title">
+        <i class="fas fa-file-alt me-2"></i>
+        Gérer l'Examen: {{ exam?.title }}
+      </h5>
+      <button type="button" class="btn-close" (click)="onClose()" aria-label="Close"></button>
+    </div>
+
+    <div class="modal-body">
+      <div *ngIf="!canEdit" class="alert alert-warning mb-3">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        <strong>Attention:</strong> Cet examen ne peut plus être modifié car des étudiants l'ont déjà passé.
+      </div>
+
+      <div *ngIf="isLoading" class="text-center py-4">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Chargement...</span>
+        </div>
+      </div>
+
+      <div *ngIf="!isLoading">
+        <!-- Questions List -->
+        <div class="mb-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6><i class="fas fa-list me-2"></i>Questions ({{ questions.length }})</h6>
+            <button 
+              class="btn btn-primary btn-sm" 
+              (click)="openAddQuestion()" 
+              *ngIf="!showQuestionForm && canEdit">
+              <i class="fas fa-plus me-1"></i>Ajouter une question
+            </button>
+          </div>
+
+          <!-- Question Form -->
+          <div *ngIf="showQuestionForm" class="card mb-3">
+            <div class="card-header">
+              <h6 class="mb-0">
+                <i class="fas fa-edit me-2"></i>
+                {{ editingQuestion ? 'Modifier la question' : 'Nouvelle question' }}
+              </h6>
+            </div>
+            <div class="card-body">
+              <form [formGroup]="questionForm" (ngSubmit)="onSubmitQuestion()">
+                <div class="mb-3">
+                  <label class="form-label">Question</label>
+                  <textarea 
+                    class="form-control" 
+                    formControlName="question"
+                    rows="4"
+                    [class.is-invalid]="question?.invalid && question?.touched"
+                    placeholder="Entrez la question (les étudiants devront répondre par écrit)..."></textarea>
+                  <div class="invalid-feedback" *ngIf="question?.invalid && question?.touched">
+                    La question est requise
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">
+                    Réponse de référence (optionnel)
+                    <small class="text-muted">- Pour votre référence uniquement, ne sera pas visible par les étudiants</small>
+                  </label>
+                  <textarea 
+                    class="form-control" 
+                    formControlName="correct_answer"
+                    rows="3"
+                    placeholder="Entrez la réponse attendue (pour votre référence)..."></textarea>
+                  <div class="form-text">
+                    Cette réponse vous servira de référence lors de la correction. Les étudiants ne la verront pas.
+                  </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save me-1"></i>{{ editingQuestion ? 'Modifier' : 'Ajouter' }}
+                  </button>
+                  <button type="button" class="btn btn-secondary" (click)="cancelQuestionForm()">
+                    <i class="fas fa-times me-1"></i>Annuler
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Questions List -->
+          <div *ngIf="questions.length > 0; else noQuestions">
+            <div *ngFor="let q of questions; let i = index" class="card mb-2">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div class="flex-grow-1">
+                    <h6 class="mb-2">
+                      <span class="badge bg-warning me-2">Q{{ i + 1 }}</span>
+                      {{ q.question }}
+                    </h6>
+                    <div *ngIf="q.correct_answer" class="mt-2">
+                      <small class="text-muted">
+                        <i class="fas fa-lightbulb me-1"></i>
+                        <strong>Référence:</strong> {{ q.correct_answer }}
+                      </small>
+                    </div>
+                  </div>
+                  <div class="btn-group btn-group-sm" *ngIf="canEdit">
+                    <button class="btn btn-outline-primary" (click)="openEditQuestion(q)">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-outline-danger" (click)="deleteQuestion(q.id!)">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ng-template #noQuestions>
+            <div class="alert alert-info">
+              <i class="fas fa-info-circle me-2"></i>
+              Aucune question pour le moment. Ajoutez votre première question !
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="onClose()">
+        <i class="fas fa-times me-1"></i>Fermer
+      </button>
+    </div>
+  </div>
+</div>
+

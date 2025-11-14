@@ -1,0 +1,192 @@
+<div *ngIf="showModal" class="modal-overlay">
+  <div class="modal-content large-modal">
+    <div class="modal-header">
+      <h5 class="modal-title">
+        <i class="fas fa-question-circle me-2"></i>
+        Gérer le Quiz: {{ quiz?.title }}
+      </h5>
+      <button type="button" class="btn-close" (click)="onClose()" aria-label="Close"></button>
+    </div>
+
+    <div class="modal-body">
+      <div *ngIf="isLoading" class="text-center py-4">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Chargement...</span>
+        </div>
+      </div>
+
+      <div *ngIf="!isLoading">
+        <!-- Questions List -->
+        <div class="mb-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6><i class="fas fa-list me-2"></i>Questions ({{ questions.length }})</h6>
+            <button class="btn btn-primary btn-sm" (click)="openAddQuestion()" *ngIf="!showQuestionForm">
+              <i class="fas fa-plus me-1"></i>Ajouter une question
+            </button>
+          </div>
+
+          <!-- Question Form -->
+          <div *ngIf="showQuestionForm" class="card mb-3">
+            <div class="card-header">
+              <h6 class="mb-0">
+                <i class="fas fa-edit me-2"></i>
+                {{ editingQuestion ? 'Modifier la question' : 'Nouvelle question' }}
+              </h6>
+            </div>
+            <div class="card-body">
+              <form [formGroup]="questionForm" (ngSubmit)="onSubmitQuestion()">
+                <div class="mb-3">
+                  <label class="form-label">Question</label>
+                  <textarea 
+                    class="form-control" 
+                    formControlName="question"
+                    rows="3"
+                    [class.is-invalid]="question?.invalid && question?.touched"
+                    placeholder="Entrez la question..."></textarea>
+                  <div class="invalid-feedback" *ngIf="question?.invalid && question?.touched">
+                    La question est requise
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Option A</label>
+                    <input 
+                      type="text" 
+                      class="form-control" 
+                      formControlName="option_a"
+                      [class.is-invalid]="option_a?.invalid && option_a?.touched">
+                    <div class="invalid-feedback" *ngIf="option_a?.invalid && option_a?.touched">
+                      L'option A est requise
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Option B</label>
+                    <input 
+                      type="text" 
+                      class="form-control" 
+                      formControlName="option_b"
+                      [class.is-invalid]="option_b?.invalid && option_b?.touched">
+                    <div class="invalid-feedback" *ngIf="option_b?.invalid && option_b?.touched">
+                      L'option B est requise
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Option C</label>
+                    <input 
+                      type="text" 
+                      class="form-control" 
+                      formControlName="option_c"
+                      [class.is-invalid]="option_c?.invalid && option_c?.touched">
+                    <div class="invalid-feedback" *ngIf="option_c?.invalid && option_c?.touched">
+                      L'option C est requise
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Option D</label>
+                    <input 
+                      type="text" 
+                      class="form-control" 
+                      formControlName="option_d"
+                      [class.is-invalid]="option_d?.invalid && option_d?.touched">
+                    <div class="invalid-feedback" *ngIf="option_d?.invalid && option_d?.touched">
+                      L'option D est requise
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Bonne réponse</label>
+                  <select 
+                    class="form-select" 
+                    formControlName="correct_option"
+                    [class.is-invalid]="correct_option?.invalid && correct_option?.touched">
+                    <option value="a">Option A</option>
+                    <option value="b">Option B</option>
+                    <option value="c">Option C</option>
+                    <option value="d">Option D</option>
+                  </select>
+                </div>
+
+                <div class="d-flex gap-2">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save me-1"></i>{{ editingQuestion ? 'Modifier' : 'Ajouter' }}
+                  </button>
+                  <button type="button" class="btn btn-secondary" (click)="cancelQuestionForm()">
+                    <i class="fas fa-times me-1"></i>Annuler
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Questions List -->
+          <div *ngIf="questions.length > 0; else noQuestions">
+            <div *ngFor="let q of questions; let i = index" class="card mb-2">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div class="flex-grow-1">
+                    <h6 class="mb-2">
+                      <span class="badge bg-primary me-2">Q{{ i + 1 }}</span>
+                      {{ q.question }}
+                    </h6>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <small class="d-block">
+                          <span [class]="q.correct_option === 'a' ? 'text-success fw-bold' : 'text-muted'">
+                            A) {{ q.option_a }}
+                          </span>
+                        </small>
+                        <small class="d-block">
+                          <span [class]="q.correct_option === 'b' ? 'text-success fw-bold' : 'text-muted'">
+                            B) {{ q.option_b }}
+                          </span>
+                        </small>
+                      </div>
+                      <div class="col-md-6">
+                        <small class="d-block">
+                          <span [class]="q.correct_option === 'c' ? 'text-success fw-bold' : 'text-muted'">
+                            C) {{ q.option_c }}
+                          </span>
+                        </small>
+                        <small class="d-block">
+                          <span [class]="q.correct_option === 'd' ? 'text-success fw-bold' : 'text-muted'">
+                            D) {{ q.option_d }}
+                          </span>
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="btn-group btn-group-sm">
+                    <button class="btn btn-outline-primary" (click)="openEditQuestion(q)">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-outline-danger" (click)="deleteQuestion(q.id!)">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ng-template #noQuestions>
+            <div class="alert alert-info">
+              <i class="fas fa-info-circle me-2"></i>
+              Aucune question pour le moment. Ajoutez votre première question !
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="onClose()">
+        <i class="fas fa-times me-1"></i>Fermer
+      </button>
+    </div>
+  </div>
+</div>
+

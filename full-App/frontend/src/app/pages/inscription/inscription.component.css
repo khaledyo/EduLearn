@@ -1,0 +1,108 @@
+.login-container {
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 4px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.login-logo {
+  height: 100px;
+  width: auto;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.login-title {
+  color: #1a237e;
+  font-weight: 600;
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 1.7rem;
+}
+
+.form-label {
+  font-weight: 500;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.form-control, .form-select {
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  transition: all 0.3s;
+  font-size: 1rem;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #1a237e;
+  box-shadow: 0 0 0 0.2rem rgba(26, 35, 126, 0.25);
+}
+
+.form-control.ng-invalid.ng-touched,
+.form-select.ng-invalid.ng-touched {
+  border-color: #dc3545;
+}
+
+.btn-custom {
+  background-color: #2563eb;
+  border-color: #2563eb;
+  color: white;
+  padding: 14px;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.3s;
+  font-size: 1.1rem;
+  border: none;
+  width: 100%;
+}
+
+.btn-custom:hover {
+  background-color: #1d4ed8;
+  border-color: #1d4ed8;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3);
+}
+
+.text-danger {
+  font-size: 0.85rem;
+}
+
+.alert {
+  border-radius: 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .login-container {
+    max-width: 90%;
+    padding: 30px;
+    margin: 20px;
+  }
+  
+  .login-logo {
+    height: 60px;
+  }
+}
+
+@media (max-width: 576px) {
+  .login-container {
+    padding: 20px;
+    margin: 15px;
+  }
+  
+  .login-logo {
+    height: 50px;
+  }
+}
+.success-snackbar {
+  background-color: #4caf50;
+  color: white;
+}
+
+.error-snackbar {
+  background-color: #f44336;
+  color: white;
+}

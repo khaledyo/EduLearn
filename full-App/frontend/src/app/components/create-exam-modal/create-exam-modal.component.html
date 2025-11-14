@@ -1,0 +1,42 @@
+<div *ngIf="showModal" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">
+        <i class="fas fa-file-alt me-2"></i>
+        Créer un nouvel Examen
+      </h5>
+      <button type="button" class="btn-close" (click)="onClose()" aria-label="Close"></button>
+    </div>
+
+    <div class="modal-body">
+      <form [formGroup]="examForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="examTitle" class="form-label">
+            <i class="fas fa-heading me-1"></i>Nom de l'Examen
+          </label>
+          <input 
+            type="text" 
+            class="form-control" 
+            id="examTitle"
+            formControlName="title"
+            [class.is-invalid]="title?.invalid && title?.touched"
+            placeholder="Ex: Examen final - Bases de données">
+          <div class="invalid-feedback" *ngIf="title?.invalid && title?.touched">
+            <span *ngIf="title?.errors?.['required']">Le nom de l'examen est requis</span>
+            <span *ngIf="title?.errors?.['maxlength']">Le nom ne peut pas dépasser 191 caractères</span>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="onClose()" [disabled]="isSubmitting">
+            <i class="fas fa-times me-1"></i>Annuler
+          </button>
+          <button type="submit" class="btn btn-primary" [disabled]="examForm.invalid || isSubmitting">
+            <i class="fas fa-save me-1"></i>{{ isSubmitting ? 'Création...' : 'Créer' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

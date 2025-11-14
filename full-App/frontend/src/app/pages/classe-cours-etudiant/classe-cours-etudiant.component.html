@@ -1,0 +1,67 @@
+<div class="container mt-4">
+  <!-- Bouton de retour -->
+  <div class="mb-4">
+    <button class="btn btn-outline-secondary" (click)="goBack()">
+      <i class="fas fa-arrow-left me-2"></i>Retour à mes cours
+    </button>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Chargement...</span>
+    </div>
+    <p class="mt-3 text-muted">Chargement des cours...</p>
+  </div>
+
+  <!-- Classe et cours -->
+  <div *ngIf="!isLoading && classe" class="row">
+    <div class="col-12">
+      <!-- En-tête de la classe -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white">
+          <h2 class="mb-0">
+            <i class="fas fa-users me-2"></i>{{ classe.name }}
+          </h2>
+        </div>
+        <div class="card-body">
+          <p *ngIf="classe.description" class="text-muted">{{ classe.description }}</p>
+          <p *ngIf="!classe.description" class="text-muted fst-italic">Aucune description disponible</p>
+        </div>
+      </div>
+
+      <!-- Liste des cours -->
+      <div class="card shadow-sm">
+        <div class="card-header bg-secondary text-white">
+          <h5 class="mb-0">
+            <i class="fas fa-book me-2"></i>Cours de la classe
+            <span class="badge bg-light text-dark ms-2">{{ cours.length }}</span>
+          </h5>
+        </div>
+
+        <div class="card-body">
+          <div *ngIf="cours.length > 0" class="row">
+            <div *ngFor="let c of cours" class="col-md-6 col-lg-4 mb-4">
+              <div class="card h-100 shadow-sm cours-card" (click)="navigateToCoursDetail(c.id)">
+                <div class="card-body">
+                  <h5 class="card-title">{{ c.title || c.titre }}</h5>
+                  <p class="card-text text-muted">{{ c.description | slice:0:100 }}...</p>
+                  <small class="text-muted">
+                    <i class="fas fa-calendar me-1"></i>
+                    {{ formatDate(c.created_at || c.dateCreation) }}
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="cours.length === 0" class="text-center py-5">
+            <i class="fas fa-book-open fa-3x mb-3 text-muted"></i>
+            <p class="text-muted">Aucun cours disponible dans cette classe pour le moment</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

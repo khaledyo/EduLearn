@@ -1,0 +1,224 @@
+.login-container {
+  border-radius: 12px;
+  overflow: hidden;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.login-logo {
+  height: 110px;
+  width: auto;
+  border-radius: 8px;
+}
+
+.login-title {
+  font-weight: 700;
+  font-size: 1.8rem;
+}
+
+.form-control {
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-control.is-invalid {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+}
+
+/* SUPPRIMÉ: Les styles .is-valid et le vert */
+/* .form-control.is-valid {
+  border-color: #198754;
+  box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.1);
+} */
+
+.btn-primary {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  border: none;
+  border-radius: 8px;
+  padding: 16px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.btn-primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.forgot-password {
+  color: #6b7280;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.forgot-password:hover {
+  color: #3b82f6;
+  text-decoration: underline;
+}
+
+/* Style pour l'alerte d'erreur unique */
+.alert {
+  border-radius: 8px;
+  border: none;
+  padding: 16px 20px;
+  margin-bottom: 25px;
+  font-size: 0.95rem;
+}
+
+.alert-warning {
+  background-color: #fffbeb;
+  color: #d97706;
+  border-left: 4px solid #d97706;
+}
+
+.alert ul {
+  padding-left: 20px;
+  margin-bottom: 0;
+}
+
+.alert li {
+  margin: 6px 0;
+  font-size: 0.9rem;
+}
+
+.btn-close:focus {
+  box-shadow: none;
+}
+
+/* Styles pour les messages de validation */
+.invalid-feedback {
+  display: block;
+  font-size: 0.9rem;
+  margin-top: 6px;
+  color: #dc3545;
+}
+
+/* SUPPRIMÉ: Les styles valid-feedback et le vert */
+/* .valid-feedback {
+  display: block;
+  font-size: 0.875rem;
+  margin-top: 4px;
+  color: #198754;
+} */
+
+/* Styles pour MatSnackBar */
+::ng-deep .custom-snackbar {
+  max-width: 500px !important;
+  margin: 0 auto !important;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  font-size: 0.95rem !important;
+}
+
+::ng-deep .success-snackbar {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important; /* Bleu au lieu de vert */
+  color: white !important;
+  border-left: 4px solid #1d4ed8 !important;
+}
+
+::ng-deep .error-snackbar {
+  background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+  color: white !important;
+  border-left: 4px solid #b91c1c !important;
+}
+
+::ng-deep .mat-snack-bar-container {
+  margin-top: 80px !important;
+  max-width: 500px !important;
+}
+
+/* Animation de chargement */
+.fa-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .login-container {
+    max-width: 450px;
+  }
+  
+  .login-logo {
+    height: 70px;
+  }
+  
+  .login-title {
+    font-size: 1.6rem;
+  }
+  
+  .card-body {
+    padding: 2rem !important;
+  }
+
+  ::ng-deep .mat-snack-bar-container {
+    max-width: 450px !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .login-container {
+    max-width: 400px;
+    margin: 0 10px;
+  }
+  
+  .col-md-6 {
+    padding: 0 15px;
+  }
+
+  .form-control {
+    padding: 12px 14px;
+  }
+
+  .btn-primary {
+    padding: 14px;
+    font-size: 1rem;
+  }
+
+  ::ng-deep .mat-snack-bar-container {
+    max-width: 400px !important;
+    margin: 80px 10px 0 10px !important;
+  }
+}
+
+/* Amélioration de l'espacement général */
+.card-body {
+  padding: 2.5rem !important;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem !important;
+}
+
+.mb-3 {
+  margin-bottom: 1.5rem !important;
+}
+
+/* Meilleur alignement pour les labels */
+.form-label {
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  display: block;
+}

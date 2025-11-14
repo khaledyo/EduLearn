@@ -1,0 +1,140 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-sm border-0 login-container">
+        <div class="card-body p-5">
+          <!-- Logo en haut -->
+          <div class="text-center mb-4">
+            <img src="assets/logo.jpg" alt="EduLearn Logo" class="login-logo">
+          </div>
+          
+          <h3 class="text-center text-primary mb-2 login-title">Créer un compte EduLearn</h3>
+          <p class="text-center text-muted mb-4">Rejoignez des milliers d'élèves qui réussissent avec nous</p>
+          
+          <form [formGroup]="inscriptionForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Prénom</label>
+                <input type="text" class="form-control" formControlName="prenom" placeholder="Ahmed" />
+                <div *ngIf="showError('prenom')" class="text-danger small mt-1">
+                  {{ getErrorMessage('prenom') }}
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Nom</label>
+                <input type="text" class="form-control" formControlName="nom" placeholder="Ben Ali" />
+                <div *ngIf="showError('nom')" class="text-danger small mt-1">
+                  {{ getErrorMessage('nom') }}
+                </div>
+              </div>
+            </div>
+
+            <!-- Email - Row solo -->
+            <div class="mb-3">
+              <label class="form-label fw-bold">Email</label>
+              <input type="email" class="form-control" formControlName="email" placeholder="exemple@gmail.com" />
+              <div *ngIf="showError('email')" class="text-danger small mt-1">
+                {{ getErrorMessage('email') }}
+              </div>
+            </div>
+
+            <!-- Téléphone - Row solo -->
+            <div class="mb-3">
+              <label class="form-label fw-bold">Téléphone</label>
+              <input type="tel" class="form-control" formControlName="telephone" placeholder="12345678" />
+              <div *ngIf="showError('telephone')" class="text-danger small mt-1">
+                {{ getErrorMessage('telephone') }}
+              </div>
+            </div>
+
+            <!-- Rôle -->
+            <div class="mb-3">
+              <label class="form-label fw-bold">Rôle</label>
+              <select class="form-select" formControlName="role">
+                <option value="student">Étudiant</option>
+                <option value="teacher">Enseignant</option>
+              </select>
+              <div *ngIf="showError('role')" class="text-danger small mt-1">
+                {{ getErrorMessage('role') }}
+              </div>
+            </div>
+
+            <!-- Niveau scolaire (visible seulement pour les étudiants) -->
+            <div class="mb-3" *ngIf="inscriptionForm.get('role')?.value === 'student'">
+              <label class="form-label fw-bold">Niveau scolaire</label>
+              <select class="form-select" formControlName="niveauScolaire" (change)="onNiveauChange()">
+                <option value="" disabled selected>Sélectionnez</option>
+                <option value="7eme">7ème année</option>
+                <option value="8eme">8ème année</option>
+                <option value="9eme">9ème année</option>
+                <option value="1ere">1ère année secondaire</option>
+                <option value="2eme">2ème année secondaire</option>
+                <option value="3eme">3ème année secondaire</option>
+                <option value="4eme">4ème année secondaire</option>
+              </select>
+            </div>
+
+            <!-- Section (visible seulement pour 2ème, 3ème, 4ème année secondaire) -->
+            <div class="mb-3" *ngIf="showSection()">
+              <label class="form-label fw-bold">Section</label>
+              <select class="form-select" formControlName="section">
+                <option value="" disabled selected>Sélectionnez</option>
+                <option value="science">Science</option>
+                <option value="informatique">Informatique</option>
+                <option value="gestion_eco">Gestion & Économie</option>
+                <option value="lettre">Lettre</option>
+                <option value="sport">Sport</option>
+              </select>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Mot de passe</label>
+                <input type="password" class="form-control" formControlName="motDePasse" placeholder="••••••••" />
+                <div *ngIf="showError('motDePasse')" class="text-danger small mt-1">
+                  {{ getErrorMessage('motDePasse') }}
+                </div>
+              </div>
+              <div class="col-md-6 mb-4">
+                <label class="form-label fw-bold">Confirmer le mot de passe</label>
+                <input type="password" class="form-control" formControlName="confirmationMotDePasse" placeholder="••••••••" />
+                <div *ngIf="showError('confirmationMotDePasse')" class="text-danger small mt-1">
+                  {{ getErrorMessage('confirmationMotDePasse') }}
+                </div>
+                <div *ngIf="showPasswordMismatch()" class="text-danger small mt-1">
+                  Les mots de passe ne correspondent pas
+                </div>
+              </div>
+            </div>
+
+            <div class="form-check mb-4">
+              <input type="checkbox" id="terms" class="form-check-input" formControlName="acceptConditions" />
+              <label class="form-check-label" for="terms">
+                J'accepte les conditions d'utilisation et la politique de confidentialité
+              </label>
+              <div *ngIf="showError('acceptConditions')" class="text-danger small mt-1">
+                {{ getErrorMessage('acceptConditions') }}
+              </div>
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-custom btn-lg">
+                Créer mon compte
+              </button>
+            </div>
+
+            <!-- Message d'erreur général -->
+            <div *ngIf="showGeneralError" class="alert alert-danger mt-3">
+              Veuillez corriger les erreurs dans le formulaire
+            </div>
+          </form>
+
+          <div class="text-center mt-4">
+            <small class="text-muted">Vous avez déjà un compte ?</small>
+            <a routerLink="/connexion" class="text-decoration-none fw-bold ms-1">Se connecter</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
