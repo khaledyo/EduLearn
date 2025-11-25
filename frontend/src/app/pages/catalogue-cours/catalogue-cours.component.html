@@ -1,0 +1,91 @@
+<div class="container mt-4">
+  <!-- En-tête -->
+  <div class="header-section mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h1 class="welcome-title">Catalogue des Cours</h1>
+      <button class="btn btn-outline-secondary" routerLink="/mes-cours-etudiant">
+        <i class="fas fa-arrow-left me-2"></i>Retour au page d'accueil
+      </button>
+    </div>
+  </div>
+
+  <!-- Barre de recherche -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <input type="text" class="form-control" placeholder="Rechercher un cours par titre..." [(ngModel)]="searchTerm">
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Chargement...</span>
+    </div>
+    <p class="mt-3 text-muted">Chargement des cours disponibles...</p>
+  </div>
+
+  <!-- Liste des cours -->
+  <div *ngIf="!isLoading" class="row">
+    <div *ngFor="let cours of filteredCours" class="col-xl-4 col-lg-6 col-md-6 mb-4">
+      <div class="card cours-card h-100" [class]="'niveau-' + (cours.niveau?.toLowerCase() || 'tous')" [attr.data-cours-id]="cours.id">
+        <div class="card-body">
+          <!-- En-tête du cours -->
+          <div class="cours-header mb-3 d-flex justify-content-between align-items-center">
+            <div class="cours-icon"><i [class]="getCoursIcon(cours.niveau || '')"></i></div>
+            <div class="enseignant-info">
+
+            </div>
+          </div>
+          
+          <h3 class="card-title">{{ cours.title || cours.titre }}</h3>
+          <p class="card-text cours-description">{{ truncateDescription(cours.description) }}</p>
+
+          <div class="cours-meta">
+                     
+           
+        
+            <div class="supports-info mt-2">
+              <i class="fas fa-user-tie me-1"></i>{{ getEnseignantComplet(cours) }}
+              <small class="text-muted"><i class="fas fa-file me-1"></i>{{ getSupportsCount(cours) }} support(s) disponible(s)</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="card-footer">
+          <div class="btn-group w-100" role="group">
+            <button class="btn btn-outline-primary" (click)="voirCours(cours.id!)" title="Voir les détails du cours">
+              <i class="fas fa-eye me-1"></i>Voir
+            </button>
+            <!-- Hide enrollment button for class-specific courses -->
+            <button *ngIf="!cours.class_id" 
+                    class="btn" 
+                    [class.btn-primary]="!isEnrolled(cours.id!)"
+                    [class.btn-outline-danger]="isEnrolled(cours.id!)"
+                    (click)="toggleEnrollment(cours.id!, cours)"
+                    [class.enrollment-animation]="isEnrolled(cours.id!)"
+                    title="{{ isEnrolled(cours.id!) ? 'Se désinscrire' : 'S\'inscrire à ce cours' }}"
+                    [attr.data-cours-id]="cours.id">
+              <i [class]="isEnrolled(cours.id!) ? 'fas fa-times me-1' : 'fas fa-plus me-1'"></i>
+              {{ isEnrolled(cours.id!) ? 'Se désinscrire' : 'S\'inscrire' }}
+            </button>
+            <!-- Show badge for class-specific courses -->
+            <span *ngIf="cours.class_id" class="badge bg-info">
+              <i class="fas fa-users me-1"></i>Cours de classe
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Aucun cours trouvé -->
+    <div *ngIf="filteredCours.length === 0 && !isLoading" class="col-12 text-center py-5">
+      <i class="fas fa-book-open fa-3x text-muted mb-3"></i>
+      <h4 class="text-muted">Aucun cours disponible</h4>
+      <p class="text-muted mb-4">Revenez plus tard pour découvrir de nouveaux cours.</p>
+      <button class="btn btn-primary" routerLink="/mes-cours-etudiant">
+        <i class="fas fa-arrow-left me-2"></i>Retour à mes cours
+      </button>
+    </div>
+  </div>
+</div>

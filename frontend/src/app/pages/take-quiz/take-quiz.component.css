@@ -1,0 +1,83 @@
+.question-container {
+  margin: 20px 0;
+}
+
+.question-container h4 {
+  font-weight: 600;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.options-list .option button {
+  transition: all 0.3s ease;
+  border: 2px solid #dee2e6;
+}
+
+.options-list .option button:hover {
+  border-color: #0d6efd;
+  box-shadow: 0 2px 8px rgba(13, 110, 253, 0.15);
+}
+
+.options-list .option button.btn-primary {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  color: white;
+}
+
+.options-list .option button.btn-outline-secondary {
+  color: #333;
+}
+
+.option {
+  position: relative;
+}
+
+.form-check-label {
+  margin-bottom: 0;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.question-nav-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.question-nav-grid button {
+  padding: 8px 4px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.question-nav-grid button.active {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25);
+}
+
+@media (max-width: 768px) {
+  .question-nav-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+.sticky-top {
+  z-index: 100;
+}
+
+/* Progress bar animation */
+.progress-bar {
+  transition: width 0.3s ease;
+}
+
+/* Results screen styling */
+.display-1 {
+  font-size: 4rem;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .display-1 {
+    font-size: 2.5rem;
+  }
+}

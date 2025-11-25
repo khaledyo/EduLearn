@@ -1,0 +1,197 @@
+<div class="homepage">
+  <!-- Section Hero -->
+  <div class="hero-section">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <h1 class="hero-title">
+            Réussissez vos examens avec les meilleurs professeurs de Tunisie
+          </h1>
+          <p class="hero-subtitle">
+            Des cours particuliers de qualité pour les élèves du secondaire. 
+            Tous niveaux : 7ème, 8ème, 9ème année, Bac Sciences, Bac Lettres.
+          </p>
+          <div class="hero-buttons">
+            <button class="btn btn-outline-primary btn-lg" routerLink="/about">
+              En savoir plus
+            </button>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="hero-image-container">
+            <!-- Carrousel Hero Dynamique Simplifié -->
+            <div class="hero-carousel">
+              <img *ngFor="let photo of heroPhotos; let i = index" 
+                   [src]="photo" 
+                   [alt]="'Étudiants en cours ' + (i + 1)"
+                   class="hero-image-simple"
+                   [class.active]="i === currentHeroPhoto">
+            </div>
+            
+            <!-- Contrôles du carrousel Hero -->
+            <div class="hero-carousel-controls">
+              <div class="hero-carousel-indicators">
+                <span *ngFor="let photo of heroPhotos; let i = index"
+                      (click)="goToHeroPhoto(i)"
+                      [class.active]="i === currentHeroPhoto">
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Carrousel 3D Moderne Professionnel -->
+  <div class="offers-section" id="offres">
+    <div class="container">
+      <div class="row justify-content-center mb-5">
+        <div class="col-lg-8 text-center">
+          <h2 class="offers-title">Nos Offres de Cours</h2>
+          <p class="offers-subtitle">Découvrez nos formules adaptées à vos besoins</p>
+        </div>
+      </div>
+
+      <div class="carousel-3d-wrapper">
+        <div class="carousel-3d"
+             (mouseenter)="onMouseEnterCarousel()"
+             (mouseleave)="onMouseLeaveCarousel()"
+             (pointerdown)="onPointerDown($event)"
+             (pointermove)="onPointerMove($event)"
+             (pointerup)="onPointerUp($event)"
+             (pointercancel)="onPointerUp($event)">
+
+          <!-- Cartes 3D Professionnelles -->
+          <div class="carousel-card"
+               *ngFor="let offer of offers; let i = index"
+               [ngStyle]="getCardStyle(i)"
+               [class.center]="i === currentSlide">
+            
+            <!-- Effet de lueur professionnel -->
+            <div class="card-glow" [style.background]="offer.gradient"></div>
+            
+            <div class="card-inner">
+              <!-- Image professionnelle avec overlay - PLUS GRANDE avec titre intégré -->
+              <div class="offer-image-professional">
+                <div class="image-overlay" [style.background]="offer.gradient"></div>
+                <img [src]="offer.image" [alt]="offer.name" class="professional-img" (error)="handleImageError($event)">
+                <!-- Titre intégré dans l'image -->
+                <div class="offer-title-overlay">
+                  <h3>{{ offer.name }}</h3>
+                </div>
+                <div class="offer-badge-professional" [style.background]="offer.gradient">
+                  {{ offer.badge }}
+                </div>
+              </div>
+
+              <div class="offer-content-professional">
+                <p>{{ offer.description }}</p>
+
+                <ul class="offer-features-professional">
+                  <li *ngFor="let feature of offer.features">
+                    <i class="fas fa-check"></i>
+                    <span>{{ feature }}</span>
+                  </li>
+                  <span style="justify-content: center;">{{ offer.price }}</span>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Contrôles améliorés -->
+        <div class="carousel-controls-professional">
+          <button class="carousel-btn-professional prev" (click)="prevSlide()">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          
+          <div class="carousel-indicators-professional">
+            <span *ngFor="let o of offers; let i = index"
+                  (click)="goToSlide(i)"
+                  [class.active]="currentSlide === i"
+                  [style.background]="o.gradient">
+            </span>
+          </div>
+          
+          <button class="carousel-btn-professional next" (click)="nextSlide()">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Pourquoi choisir -->
+  <div class="why-section">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <h2 class="why-title">Pourquoi choisir EduLearn ?</h2>
+          <div class="why-list">
+            <div class="why-item">
+              <i class="fas fa-check check-icon"></i>
+              <span class="why-text">Professeurs certifiés et expérimentés</span>
+            </div>
+            <div class="why-item">
+              <i class="fas fa-check check-icon"></i>
+              <span class="why-text">Cours particuliers ou en petits groupes</span>
+            </div>
+            <div class="why-item">
+              <i class="fas fa-check check-icon"></i>
+              <span class="why-text">Horaires flexibles adaptés à votre emploi du temps</span>
+            </div>
+            <div class="why-item">
+              <i class="fas fa-check check-icon"></i>
+              <span class="why-text">Suivi personnalisé de la progression</span>
+            </div>
+            <div class="why-item">
+              <i class="fas fa-check check-icon"></i>
+              <span class="why-text">Tarifs compétitifs et transparents</span>
+            </div>
+            <div class="why-item">
+              <i class="fas fa-check check-icon"></i>
+              <span class="why-text">Première séance d'essai gratuite</span>
+            </div>
+          </div>
+          <div class="why-button">
+            <button class="btn why-btn" (click)="scrollToOffers()">
+              Voir nos offres
+            </button>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="why-image-container">
+            <img src="assets/photo1.jpg" alt="Pourquoi choisir EduLearn" class="why-image">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+          <h2 class="cta-title">Prêt à commencer votre réussite ?</h2>
+          <p class="cta-subtitle">
+            Rejoignez des milliers d'élèves qui ont amélioré leurs résultats avec nos professeurs
+          </p>
+          <div class="cta-buttons">
+            <button class="btn cta-btn-primary" routerLink="/inscription">
+              Créer un compte gratuitement
+            </button>
+            <button class="btn cta-btn-outline" (click)="scrollToOffers()">
+              Parcourir les professeurs
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

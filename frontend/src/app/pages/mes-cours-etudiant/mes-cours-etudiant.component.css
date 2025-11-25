@@ -1,0 +1,374 @@
+.container {
+  max-width: 1200px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* En-tête */
+.header-section {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 20px 0;
+}
+
+.welcome-title {
+  color: #2c3e50;
+  font-weight: 700;
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+}
+
+.student-info {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.niveau-badge {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: white;
+}
+
+.section-badge {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+}
+
+/* Cartes générales */
+.card {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 1px solid #e9ecef;
+  margin-bottom: 1.5rem;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.card-title {
+  color: #2c3e50;
+  font-weight: 700;
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 0.5rem;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+/* Carte Progression */
+.progress-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.progress-card .card-title {
+  color: white;
+  border-bottom-color: rgba(255,255,255,0.3);
+}
+
+.progress-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.progress-circle {
+  position: relative;
+  width: 150px;
+  height: 150px;
+}
+
+.circle-bg {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.circle-fill {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  clip-path: polygon(50% 50%, 50% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 50%);
+  transform: rotate(216deg); /* 60% de 360 */
+  transform-origin: center;
+}
+
+.progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.progress-percent {
+  font-size: 2.5rem;
+  font-weight: 800;
+  display: block;
+}
+
+/* Carte Cours en cours */
+.courses-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.course-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.course-item:hover {
+  background: #e9ecef;
+  transform: translateX(5px);
+}
+
+.course-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.course-info {
+  flex: 1;
+}
+
+.course-name {
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+/* Carte Notifications */
+.notifications-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.notification-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.notification-item:hover {
+  background: #e9ecef;
+}
+
+.notification-icon {
+  width: 35px;
+  height: 35px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-text {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #374151;
+  line-height: 1.4;
+}
+
+.notification-time {
+  color: #6b7280;
+  font-size: 0.8rem;
+}
+
+/* Carte Accès rapide */
+.quick-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.quick-link {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  color: #374151;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.quick-link:hover {
+  background: #3b82f6;
+  color: white;
+  transform: translateX(5px);
+  text-decoration: none;
+  border-color: #3b82f6;
+}
+
+.quick-link i {
+  width: 20px;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .welcome-title {
+    font-size: 1.8rem;
+  }
+  
+  .progress-circle {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .progress-percent {
+    font-size: 2rem;
+  }
+  
+  .student-info {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding: 0 15px;
+  }
+  
+  .welcome-title {
+    font-size: 1.6rem;
+  }
+  
+  .card-body {
+    padding: 1rem;
+  }
+  
+  .course-item, .notification-item {
+    padding: 10px;
+  }
+}
+
+.btn-catalog {
+  background: linear-gradient(135deg, #3b82f6, #2563eb); /* dégradé plus vif */
+  color: white;
+  font-weight: 600;
+  border-radius: 25px; /* coins plus arrondis */
+  padding: 10px 22px;
+  border: none;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+  transition: all 0.3s ease;
+}
+
+.btn-catalog:hover {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8); /* effet hover */
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+  transform: translateY(-2px);
+  color: white;
+}
+
+/* Carte Mes classes */
+.classes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.class-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.class-item:hover {
+  background: #e9ecef;
+  transform: translateX(5px);
+}
+
+.class-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.class-info {
+  flex: 1;
+}
+
+.class-name {
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0 0 5px 0;
+  font-size: 1.1rem;
+}
+
+.class-description {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin: 0 0 5px 0;
+}
+
+.class-arrow {
+  color: #9ca3af;
+  font-size: 1rem;
+  flex-shrink: 0;
+}

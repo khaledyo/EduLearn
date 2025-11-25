@@ -1,0 +1,33 @@
+/* Badge d'inscription */
+.bg-success {
+  background: linear-gradient(135deg, #10b981, #059669) !important;
+}
+
+/* Bouton désactivé */
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Support cards */
+.support-card {
+  transition: all 0.3s ease;
+}
+
+.support-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Badge d'avertissement */
+.bg-warning {
+  background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card-header .text-end {
+    text-align: left !important;
+    margin-top: 1rem;
+  }
+}

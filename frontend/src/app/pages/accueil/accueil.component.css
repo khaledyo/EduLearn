@@ -1,0 +1,854 @@
+.homepage {
+  background-color: white;
+}
+
+/* Section Hero */
+.hero-section {
+  height: 520px;
+  background: linear-gradient(135deg, #4557bc 0%, #3240d2 50%, #1f2fa5 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  padding-top: 60px;
+}
+
+.hero-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-subtitle {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+  max-width: 90%;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  background-color: white;
+  border-color: white;
+  color: #1a237e;
+  padding: 10px 25px;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+  border: none;
+  font-size: 0.95rem;
+}
+
+.btn-primary:hover {
+  background-color: #f8f9fa;
+  border-color: #f8f9fa;
+  color: #1a237e;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4);
+}
+
+.btn-outline-primary {
+  border: 2px solid white;
+  color: white;
+  background-color: transparent;
+  padding: 10px 25px;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.btn-outline-primary:hover {
+  background-color: white;
+  color: #1a237e;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+}
+
+/* Carrousel Hero Dynamique Simplifié */
+.hero-image-container {
+  text-align: center;
+  position: relative;
+}
+
+.hero-carousel {
+  position: relative;
+  width: 100%;
+  height: 350px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.hero-image-simple {
+  width: 100%;
+  height: 350px;
+  border-radius: 12px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.hero-image-simple.active {
+  opacity: 1;
+}
+
+/* Contrôles du carrousel Hero */
+.hero-carousel-controls {
+  position: absolute;
+  bottom: 15px;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  z-index: 10;
+}
+
+.hero-carousel-btn {
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  color: #1a237e;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.hero-carousel-btn:hover {
+  background: white;
+  transform: scale(1.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.hero-carousel-indicators {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hero-carousel-indicators span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.hero-carousel-indicators span.active {
+  background: white;
+  transform: scale(1.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Section Carrousel 3D Professionnelle */
+.offers-section {
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+  padding: 100px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.offers-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1a237e;
+  margin-bottom: 1rem;
+}
+
+.offers-subtitle {
+  font-size: 1.2rem;
+  color: #64748b;
+  margin-bottom: 3rem;
+}
+
+.carousel-3d-wrapper {
+  perspective: 2000px;
+  margin: 60px auto 40px;
+  max-width: 1400px;
+  position: relative;
+}
+
+.carousel-3d {
+  height: 500px;
+  position: relative;
+  transform-style: preserve-3d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  touch-action: pan-y;
+}
+
+/* Carte 3D Professionnelle */
+.carousel-card {
+  width: 380px;
+  height: 520px; /* Augmenté pour accommoder l'image plus grande */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: center center;
+  border-radius: 20px;
+  background: #ffffff;
+  overflow: hidden;
+  backface-visibility: hidden;
+  transition: all 700ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  margin-left: -190px;
+  margin-top: -260px; /* Ajusté pour la nouvelle hauteur */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.card-glow {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 22px;
+  filter: blur(25px);
+  opacity: 0.3;
+  z-index: 0;
+  transition: all 0.5s ease;
+}
+
+.carousel-card.center .card-glow {
+  opacity: 0.6;
+  filter: blur(35px);
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 2;
+  background: #ffffff;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+/* Image professionnelle PLUS GRANDE avec titre intégré */
+.offer-image-professional {
+  position: relative;
+  height: 250px; /* Augmenté de 180px à 250px */
+  overflow: hidden;
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(0,0,0,0.3), transparent);
+  z-index: 1;
+  opacity: 0.7;
+}
+
+.professional-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.carousel-card.center .professional-img {
+  transform: scale(1.05);
+}
+
+/* Titre intégré dans l'image */
+.offer-title-overlay {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 3;
+  padding: 0 20px;
+}
+
+.offer-title-overlay h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: white;
+  font-weight: 700;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+  padding: 21px 20px;
+  display: inline-block;
+ 
+}
+
+.offer-badge-professional {
+  position: absolute;
+  top: 70px; /* Ajusté pour être sous le titre */
+  left: 12px;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  z-index: 3;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Contenu professionnel */
+.offer-content-professional {
+  padding: 20px 25px 25px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+}
+
+.offer-content-professional p {
+  color: #64748b;
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* LISTE NORMALE - SANS SCROLL */
+.offer-features-professional {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 25px;
+  flex: 1;
+  max-height: none;
+  overflow-y: visible;
+}
+
+.offer-features-professional li {
+  font-size: 0.9rem;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid #f1f5f9;
+  transition: all 0.3s ease;
+}
+
+.offer-features-professional li:hover {
+  transform: translateX(5px);
+  border-bottom-color: #e2e8f0;
+}
+
+.offer-features-professional i {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+  padding: 6px;
+  border-radius: 8px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.offer-footer-professional {
+  margin-top: auto;
+  text-align: center;
+}
+
+.offer-price {
+  font-weight: 800;
+  font-size: 1.6rem;
+  color: #1a237e;
+  margin-bottom: 15px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.btn-select-professional {
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: 12px;
+  color: white;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-select-professional::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s;
+}
+
+.btn-select-professional:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.btn-select-professional:hover::before {
+  left: 100%;
+}
+
+/* Contrôles professionnels */
+.carousel-controls-professional {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  margin-top: 40px;
+}
+
+.carousel-btn-professional {
+  background: white;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  color: #1a237e;
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel-btn-professional::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 50%;
+}
+
+.carousel-btn-professional:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-btn-professional:hover::before {
+  opacity: 1;
+}
+
+.carousel-btn-professional i {
+  position: relative;
+  z-index: 2;
+  transition: color 0.3s ease;
+}
+
+.carousel-btn-professional:hover i {
+  color: white;
+}
+
+.carousel-indicators-professional {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.carousel-indicators-professional span {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: #e2e8f0;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel-indicators-professional span.active {
+  transform: scale(1.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Style de fallback si l'image ne charge pas */
+.offer-image-professional::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  z-index: 0;
+  opacity: 0.1;
+}
+
+/* Section Pourquoi choisir */
+.why-section {
+  background-color: white;
+  padding: 80px 0;
+}
+
+.why-image-container {
+  text-align: right;
+  padding-left: 40px;
+}
+
+.why-image {
+  max-width: 100%;
+  height: 500px;
+  width: auto;
+  border-radius: 16px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  object-fit: cover;
+  transition: all 0.4s ease;
+}
+
+.why-image:hover {
+  transform: scale(1.02);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+}
+
+.why-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1a237e;
+  margin-bottom: 2.5rem;
+  line-height: 1.2;
+  text-align: left;
+  position: relative;
+}
+
+.why-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(135deg, #3b82f6, #1e40af);
+  border-radius: 2px;
+}
+
+.why-list {
+  margin-bottom: 3rem;
+}
+
+.why-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1.2rem;
+  padding: 5px 0;
+  transition: transform 0.3s ease;
+}
+
+.why-item:hover {
+  transform: translateX(5px);
+}
+
+.check-icon {
+  color: #10b981;
+  margin-right: 16px;
+  margin-top: 2px;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  background: rgba(59, 130, 246, 0.1);
+  padding: 8px;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.why-text {
+  font-size: 1.1rem;
+  color: #374151;
+  line-height: 1.6;
+  font-weight: 500;
+  flex: 1;
+}
+
+.why-button {
+  margin-top: 2.5rem;
+}
+
+.why-btn {
+  background: linear-gradient(135deg, rgb(37, 99, 235), rgb(29, 78, 216));
+  border: none;
+  color: white;
+  padding: 15px 35px;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.why-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s;
+}
+
+.why-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(37, 99, 235, 0.4);
+}
+
+.why-btn:hover::before {
+  left: 100%;
+}
+
+/* Section CTA */
+.cta-section {
+  background: linear-gradient(135deg, #2a38d5 0%, #3443b9 50%, #4153c6 100%);
+  padding: 80px 0;
+  color: white;
+}
+
+.cta-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.cta-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 2.5rem;
+  opacity: 0.9;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cta-btn-primary {
+  background-color: white;
+  color: #1a237e;
+  padding: 12px 30px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.cta-btn-primary:hover {
+  background-color: #f8f9fa;
+  transform: translateY(-2px);
+}
+
+.cta-btn-outline {
+  border: 2px solid white;
+  color: white;
+  background-color: transparent;
+  padding: 12px 30px;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.cta-btn-outline:hover {
+  background-color: white;
+  color: #1a237e;
+  transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .carousel-card {
+    width: 350px;
+    height: 500px; /* Ajusté */
+    margin-left: -175px;
+    margin-top: -250px; /* Ajusté */
+  }
+}
+
+@media (max-width: 992px) {
+  .carousel-card {
+    width: 320px;
+    height: 480px; /* Ajusté */
+    margin-left: -160px;
+    margin-top: -240px; /* Ajusté */
+  }
+  
+  .carousel-3d {
+    height: 500px; /* Ajusté */
+  }
+  
+  .hero-section {
+    height: auto;
+    padding: 80px 0;
+  }
+  
+  .hero-title {
+    text-align: center;
+  }
+  
+  .hero-subtitle {
+    text-align: center;
+    max-width: 100%;
+  }
+  
+  .hero-buttons {
+    justify-content: center;
+  }
+  
+  .why-image-container {
+    text-align: center;
+    padding-left: 0;
+    margin-top: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-card {
+    width: 280px;
+    height: 450px; /* Ajusté */
+    margin-left: -140px;
+    margin-top: -225px; /* Ajusté */
+  }
+  
+  .carousel-3d {
+    height: 470px; /* Ajusté */
+  }
+  
+  .offer-content-professional {
+    padding: 20px;
+  }
+  
+  .offer-title-overlay h3 {
+    font-size: 1.3rem;
+  }
+  
+  .offer-image-professional {
+    height: 220px; /* Légèrement réduit sur mobile */
+  }
+  
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .offers-title {
+    font-size: 2rem;
+  }
+  
+  .why-title {
+    font-size: 2rem;
+  }
+  
+  .cta-title {
+    font-size: 2rem;
+  }
+  
+  .hero-carousel {
+    height: 300px;
+  }
+  
+  .hero-image-simple {
+    height: 300px;
+  }
+}
+
+@media (max-width: 576px) {
+  .carousel-card {
+    width: 260px;
+    height: 430px; /* Ajusté */
+    margin-left: -130px;
+    margin-top: -215px; /* Ajusté */
+  }
+  
+  .carousel-3d {
+    height: 450px; /* Ajusté */
+  }
+  
+  .carousel-controls-professional {
+    gap: 15px;
+  }
+  
+  .carousel-btn-professional {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .offer-image-professional {
+    height: 200px; /* Légèrement réduit sur très petits écrans */
+  }
+  
+  .hero-carousel {
+    height: 250px;
+  }
+  
+  .hero-image-simple {
+    height: 250px;
+  }
+  
+  .hero-carousel-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 0.9rem;
+  }
+}

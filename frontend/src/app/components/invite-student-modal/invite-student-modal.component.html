@@ -1,0 +1,91 @@
+<div *ngIf="showModal" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">
+        <i class="fas fa-user-plus me-2"></i>
+        Inviter un étudiant
+      </h5>
+      <button type="button" class="btn-close" (click)="onClose()" aria-label="Close"></button>
+    </div>
+
+    <div class="modal-body">
+      <form [formGroup]="inviteForm" (ngSubmit)="searchStudent()">
+        <!-- Email input -->
+        <div class="mb-3">
+          <label for="email" class="form-label">
+            <i class="fas fa-envelope me-1"></i>Email de l'étudiant
+          </label>
+          <input 
+            type="email" 
+            class="form-control" 
+            id="email"
+            formControlName="email"
+            [class.is-invalid]="email?.invalid && email?.touched"
+            placeholder="exemple@email.com"
+            (blur)="onEmailBlur()">
+          <div class="invalid-feedback" *ngIf="email?.invalid && email?.touched">
+            <span *ngIf="email?.errors?.['required']">L'email est requis</span>
+            <span *ngIf="email?.errors?.['email']">Veuillez entrer un email valide</span>
+          </div>
+          <div class="form-text">
+            <i class="fas fa-info-circle me-1"></i>
+            Entrez l'email de l'étudiant que vous souhaitez inviter à cette classe.
+          </div>
+        </div>
+
+        <!-- Search button -->
+        <div class="mb-3">
+          <button 
+            type="submit" 
+            class="btn btn-primary w-100"
+            [disabled]="inviteForm.invalid || isSearching">
+            <i class="fas fa-search me-1"></i>
+            {{ isSearching ? 'Recherche...' : 'Rechercher l\'étudiant' }}
+          </button>
+        </div>
+      </form>
+
+      <!-- Search results -->
+      <div *ngIf="searchResults.length > 0" class="mt-4">
+        <h6 class="mb-3">Résultat de la recherche:</h6>
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h6 class="mb-1">
+                  <i class="fas fa-user me-2"></i>
+                  {{ searchResults[0].name || (searchResults[0].prenom + ' ' + searchResults[0].nom) || 'Étudiant' }}
+                </h6>
+                <p class="text-muted mb-0">
+                  <i class="fas fa-envelope me-1"></i>
+                  {{ searchResults[0].email }}
+                </p>
+              </div>
+              <button 
+                class="btn btn-success"
+                (click)="inviteStudent(searchResults[0])"
+                [disabled]="isLoading">
+                <i class="fas fa-user-plus me-1"></i>
+                {{ isLoading ? 'Ajout...' : 'Inviter' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- No results message -->
+      <div *ngIf="email?.touched && email?.valid && searchResults.length === 0 && !isSearching" class="alert alert-warning mt-3">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        Aucun étudiant trouvé avec cet email.
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="onClose()">
+        <i class="fas fa-times me-1"></i>Fermer
+      </button>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,297 @@
+<div class="container mt-4">
+  <!-- Bouton de retour -->
+  <div class="mb-4">
+    <button class="btn btn-outline-secondary" (click)="goBack()">
+      <i class="fas fa-arrow-left me-2"></i>Retour à mes cours
+    </button>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Chargement...</span>
+    </div>
+    <p class="mt-3 text-muted">Chargement du cours...</p>
+  </div>
+
+  <!-- Détails du cours -->
+  <div *ngIf="!isLoading && cours" class="row">
+    <div class="col-12">
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+          <h2 class="mb-0"><i class="fas fa-book me-2"></i>{{ cours.title || cours.titre }}</h2>
+          <div class="btn-group" *ngIf="isEnseignant">
+            <button class="btn btn-outline-light btn-sm me-2" (click)="openEditModal()">
+              <i class="fas fa-edit me-1"></i>Modifier
+            </button>
+            <button class="btn btn-outline-light btn-sm" (click)="openDeleteModal()">
+              <i class="fas fa-trash me-1"></i>Supprimer
+            </button>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <h4 class="text-primary">Description</h4>
+          <p>{{ cours.description }}</p>
+
+          <div class="row mt-4">
+            <div class="col-sm-6">
+              <p><i class="fas fa-calendar me-2"></i><strong>Date de création:</strong></p>
+              <p class="text-muted">{{ formatDate(cours.created_at || cours.dateCreation) }}</p>
+            </div>
+            <div class="col-sm-6">
+              <p><i class="fas fa-user me-2"></i><strong>Enseignant:</strong></p>
+              <p class="text-muted">{{ getUserName() }}</p>
+            </div>
+          </div>
+
+          <!-- Class information if course is for a class -->
+          <div class="row mt-3" *ngIf="cours.class_id && cours.class_name">
+            <div class="col-12">
+              <div class="alert alert-info mb-0">
+                <i class="fas fa-users me-2"></i>
+                <strong>Ce cours est destiné à la classe:</strong> {{ cours.class_name }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Supports -->
+      <div class="card shadow-sm">
+        <div class="card-header bg-secondary text-white">
+          <h5 class="mb-0"><i class="fas fa-download me-2"></i>Supports de cours</h5>
+        </div>
+        <div class="card-body">
+          <div *ngIf="getSupports().length > 0; else noSupports">
+            <div class="row">
+            <div *ngFor="let support of getSupports()" class="col-md-6 col-lg-4 mb-3">
+              <div class="card text-center h-100">
+                <div class="card-body">
+                  <i [class]="getFileIcon(support) + ' fa-3x text-primary mb-3'"></i>
+                  <h5>{{ getFileType(support) }}</h5>
+                  <p class="small text-muted">{{ support }}</p>
+                  <button class="btn btn-outline-primary btn-sm" (click)="downloadSupport(support)">
+                    <i class="fas fa-download me-1"></i>Télécharger
+                  </button>
+                </div>
+              </div>
+              </div>
+            </div>
+            <div *ngIf="isEnseignant" class="text-center mt-4">
+              <button class="btn btn-primary" (click)="openAddSupportModal()">
+                <i class="fas fa-plus me-1"></i>Ajouter d'autres supports
+              </button>
+            </div>
+          </div>
+
+          <ng-template #noSupports>
+            <div class="text-center py-4">
+              <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
+              <p class="text-muted">Aucun support disponible pour ce cours</p>
+              <button *ngIf="isEnseignant" class="btn btn-outline-primary" (click)="openAddSupportModal()">
+                <i class="fas fa-plus me-1"></i>Ajouter des supports
+              </button>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+
+      <!-- Quizzes and Exams Section (for teachers only) -->
+      <div *ngIf="isEnseignant" class="card shadow-sm mt-4">
+        <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+          <h5 class="mb-0"><i class="fas fa-clipboard-list me-2"></i>Quiz et Examens</h5>
+          <div>
+            <button class="btn btn-light btn-sm me-2" (click)="openCreateQuizModal()">
+              <i class="fas fa-plus me-1"></i>Ajouter Quiz
+            </button>
+            <button class="btn btn-light btn-sm" (click)="openCreateExamModal()">
+              <i class="fas fa-plus me-1"></i>Ajouter Examen
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <!-- Quizzes List -->
+          <div class="mb-4">
+            <h6 class="text-primary"><i class="fas fa-question-circle me-2"></i>Quiz</h6>
+            <div *ngIf="quizzes.length > 0; else noQuizzes" class="row">
+              <div *ngFor="let quiz of quizzes" class="col-md-6 mb-3">
+                <div class="card">
+                  <div class="card-body">
+                    <h6 class="card-title">{{ quiz.title }}</h6>
+                    <p class="text-muted small mb-2">
+                      <i class="fas fa-question me-1"></i>{{ quiz.questions?.length || 0 }} question(s)
+                    </p>
+                    <div class="btn-group btn-group-sm">
+                      <button class="btn btn-outline-primary" (click)="openQuizDetail(quiz.id!)">
+                        <i class="fas fa-edit me-1"></i>Gérer
+                      </button>
+                      <button class="btn btn-outline-info" (click)="viewQuizResults(quiz.id!)">
+                        <i class="fas fa-chart-bar me-1"></i>Résultats
+                      </button>
+                      <button class="btn btn-outline-danger" (click)="deleteQuiz(quiz.id!)">
+                        <i class="fas fa-trash me-1"></i>Supprimer
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <ng-template #noQuizzes>
+              <p class="text-muted">Aucun quiz créé</p>
+            </ng-template>
+          </div>
+
+          <!-- Exams List -->
+          <div>
+            <h6 class="text-warning"><i class="fas fa-file-alt me-2"></i>Examens</h6>
+            <div *ngIf="exams.length > 0; else noExams" class="row">
+              <div *ngFor="let exam of exams" class="col-md-6 mb-3">
+                <div class="card">
+                  <div class="card-body">
+                    <h6 class="card-title">{{ exam.title }}</h6>
+                    <p class="text-muted small mb-2">
+                      <i class="fas fa-question me-1"></i>{{ exam.questions?.length || 0 }} question(s)
+                      <span *ngIf="exam.has_results" class="badge bg-warning ms-2">Déjà passé</span>
+                    </p>
+                    <div class="btn-group btn-group-sm">
+                      <button class="btn btn-outline-primary" 
+                              (click)="openExamDetail(exam.id!)"
+                              [disabled]="exam.has_results">
+                        <i class="fas fa-edit me-1"></i>Gérer
+                      </button>
+                      <button class="btn btn-outline-info" (click)="viewExamResults(exam.id!)">
+                        <i class="fas fa-chart-bar me-1"></i>Résultats
+                      </button>
+                      <button class="btn btn-outline-danger" (click)="deleteExam(exam.id!)">
+                        <i class="fas fa-trash me-1"></i>Supprimer
+                      </button>
+                    </div>
+                    <small *ngIf="exam.has_results" class="text-warning d-block mt-2">
+                      <i class="fas fa-exclamation-triangle me-1"></i>Cet examen ne peut plus être modifié
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <ng-template #noExams>
+              <p class="text-muted">Aucun examen créé</p>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cours introuvable -->
+      <!-- Q&A Posts (enseignant) -->
+      <div *ngIf="isEnseignant" class="card shadow-sm mt-4">
+        <div class="card-header bg-info text-white">
+          <h5 class="mb-0"><i class="fas fa-question-circle me-2"></i>Questions des étudiants</h5>
+        </div>
+        <div class="card-body">
+          <div *ngIf="posts.length === 0" class="text-muted small">Aucune question pour le moment</div>
+
+          <div *ngFor="let p of posts" class="mb-3">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <strong>{{ p.student?.name || (p.student?.prenom + ' ' + p.student?.nom) }}</strong>
+                    <div class="small text-muted">{{ p.created_at | date:'short' }}</div>
+                  </div>
+                </div>
+                <p class="mt-2">{{ p.content }}</p>
+
+                <div *ngIf="p.answers?.length > 0" class="mt-3">
+                  <div *ngFor="let a of p.answers" class="border-top pt-2">
+                    <strong>Réponse ({{ a.teacher?.name || (a.teacher?.prenom + ' ' + a.teacher?.nom) }})</strong>
+                    <div class="small text-muted">{{ a.created_at | date:'short' }}</div>
+                    <p class="mt-1">{{ a.content }}</p>
+                  </div>
+                </div>
+
+                <div class="mt-3">
+                  <label class="form-label">Votre réponse</label>
+                  <textarea class="form-control" rows="3" [(ngModel)]="answerContent[p.id]" placeholder="Écrire une réponse..."></textarea>
+                  <div class="text-end mt-2">
+                    <button class="btn btn-primary btn-sm" (click)="answerPost(p.id)">Répondre</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  <div *ngIf="!isLoading && !cours" class="text-center py-5">
+    <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+    <h4>Cours non trouvé</h4>
+    <p>Le cours que vous recherchez n'existe pas ou a été supprimé.</p>
+    <button class="btn btn-primary" (click)="goBack()">
+      <i class="fas fa-arrow-left me-1"></i>Retour à mes cours
+    </button>
+  </div>
+</div>
+
+<!-- Modaux -->
+<app-cours-modal
+  [showModal]="showEditModal"
+  [isEditMode]="true"
+  [cours]="cours"
+  (closeModal)="closeEditModal()"
+  (submitCours)="handleCoursSubmit($event)"
+  (fileChange)="handleFileChange($event)">
+</app-cours-modal>
+
+<app-delete-confirmation-modal
+  [showModal]="showDeleteModal"
+  [coursTitle]="cours?.title || cours?.titre || ''"
+  (closeModal)="closeDeleteModal()"
+  (confirmDelete)="handleDeleteConfirm()">
+</app-delete-confirmation-modal>
+
+<app-add-support-modal
+  [showModal]="showAddSupportModal"
+  [existingSupports]="getSupports()"
+  (closeModal)="closeAddSupportModal()"
+  (submitSupports)="handleSupportsSubmit($event)">
+</app-add-support-modal>
+
+<!-- Quiz/Exam Modals -->
+<app-create-quiz-modal
+  [showModal]="showCreateQuizModal"
+  [courseId]="cours?.id!"
+  (closeModal)="closeCreateQuizModal()"
+  (quizCreated)="onQuizCreated($event)">
+</app-create-quiz-modal>
+
+<app-create-exam-modal
+  [showModal]="showCreateExamModal"
+  [courseId]="cours?.id!"
+  (closeModal)="closeCreateExamModal()"
+  (examCreated)="onExamCreated($event)">
+</app-create-exam-modal>
+
+<app-quiz-detail-modal
+  [showModal]="showQuizDetailModal"
+  [quizId]="selectedQuizId!"
+  (closeModal)="closeQuizDetailModal()">
+</app-quiz-detail-modal>
+
+<app-exam-detail-modal
+  [showModal]="showExamDetailModal"
+  [examId]="selectedExamId!"
+  (closeModal)="closeExamDetailModal()">
+</app-exam-detail-modal>
+
+<app-quiz-results-modal
+  [showModal]="showQuizResultsModal"
+  [quizId]="selectedQuizId!"
+  (closeModal)="closeQuizResultsModal()">
+</app-quiz-results-modal>
+
+<app-exam-results-modal
+  [showModal]="showExamResultsModal"
+  [examId]="selectedExamId!"
+  (closeModal)="closeExamResultsModal()">
+</app-exam-results-modal>

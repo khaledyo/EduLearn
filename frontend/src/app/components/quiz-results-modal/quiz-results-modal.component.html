@@ -1,0 +1,73 @@
+<div *ngIf="showModal" class="modal-overlay">
+  <div class="modal-content large-modal">
+    <div class="modal-header">
+      <h5 class="modal-title">
+        <i class="fas fa-chart-bar me-2"></i>
+        Résultats du Quiz
+      </h5>
+      <button type="button" class="btn-close" (click)="onClose()" aria-label="Close"></button>
+    </div>
+
+    <div class="modal-body">
+      <div *ngIf="isLoading" class="text-center py-4">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Chargement...</span>
+        </div>
+      </div>
+
+      <div *ngIf="!isLoading">
+        <div *ngIf="results.length > 0; else noResults">
+          <div class="alert alert-info mb-3">
+            <i class="fas fa-info-circle me-2"></i>
+            <strong>{{ results.length }}</strong> étudiant(s) ont passé ce quiz.
+            Les scores sont calculés automatiquement.
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Étudiant</th>
+                  <th>Email</th>
+                  <th>Score</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let result of results; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ result.student?.name || 'N/A' }}</td>
+                  <td>{{ result.student?.email || 'N/A' }}</td>
+                  <td>
+                    <span class="badge" [ngClass]="{
+                      'bg-success': result.score >= (getTotalQuestions() * 0.7),
+                      'bg-warning': result.score >= (getTotalQuestions() * 0.5) && result.score < (getTotalQuestions() * 0.7),
+                      'bg-danger': result.score < (getTotalQuestions() * 0.5)
+                    }">
+                      {{ result.score }} / {{ getTotalQuestions() }}
+                    </span>
+                  </td>
+                  <td>{{ result.created_at ? (result.created_at | date:'short') : 'N/A' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <ng-template #noResults>
+          <div class="alert alert-warning">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            Aucun étudiant n'a encore passé ce quiz.
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="onClose()">
+        <i class="fas fa-times me-1"></i>Fermer
+      </button>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,227 @@
+<div class="contact-page">
+  <!-- Section Hero Contact -->
+  <div class="contact-hero">
+    <div class="container">
+      <div class="row justify-content-center text-center">
+        <div class="col-lg-8">
+          <h1 class="contact-hero-title">Contactez-nous</h1>
+          <p class="contact-hero-subtitle">
+            Une question ? Un projet ? Notre équipe est là pour vous accompagner 
+            dans votre parcours éducatif.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section Contact Principale -->
+  <div class="contact-main-section">
+    <div class="container">
+      <div class="row">
+        <!-- Formulaire de Contact -->
+        <div class="col-lg-8">
+          <div class="contact-form-container">
+            <h2 class="form-title">Envoyez-nous un message</h2>
+            <p class="form-subtitle">
+              Remplissez le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais.
+            </p>
+
+            <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="nom" class="form-label">Nom complet *</label>
+                    <input 
+                      type="text" 
+                      id="nom" 
+                      formControlName="nom" 
+                      class="form-control"
+                      [class.is-invalid]="submitted && f['nom'].errors"
+                      placeholder="Votre nom complet">
+                    <div *ngIf="submitted && f['nom'].errors" class="invalid-feedback">
+                      <div *ngIf="f['nom'].errors['required']">Le nom est obligatoire</div>
+                      <div *ngIf="f['nom'].errors['minlength']">Le nom doit contenir au moins 2 caractères</div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="email" class="form-label">Email *</label>
+                    <input 
+                      type="email" 
+                      id="email" 
+                      formControlName="email" 
+                      class="form-control"
+                      [class.is-invalid]="submitted && f['email'].errors"
+                      placeholder="votre@email.com">
+                    <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                      <div *ngIf="f['email'].errors['required']">L'email est obligatoire</div>
+                      <div *ngIf="f['email'].errors['email']">Format d'email invalide</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="telephone" class="form-label">Téléphone</label>
+                    <input 
+                      type="tel" 
+                      id="telephone" 
+                      formControlName="telephone" 
+                      class="form-control"
+                      [class.is-invalid]="submitted && f['telephone'].errors"
+                      placeholder="XX XXX XXX">
+                    <div *ngIf="submitted && f['telephone'].errors" class="invalid-feedback">
+                      Numéro de téléphone invalide (8 chiffres)
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="sujet" class="form-label">Sujet *</label>
+                    <select 
+                      id="sujet" 
+                      formControlName="sujet" 
+                      class="form-control"
+                      [class.is-invalid]="submitted && f['sujet'].errors">
+                      <option value="">Choisir un sujet</option>
+                      <option value="inscription">Inscription</option>
+                      <option value="cours">Informations sur les cours</option>
+                      <option value="professeurs">Devenir professeur</option>
+                      <option value="technique">Problème technique</option>
+                      <option value="autre">Autre</option>
+                    </select>
+                    <div *ngIf="submitted && f['sujet'].errors" class="invalid-feedback">
+                      Veuillez sélectionner un sujet
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="message" class="form-label">Message *</label>
+                <textarea 
+                  id="message" 
+                  formControlName="message" 
+                  rows="6" 
+                  class="form-control"
+                  [class.is-invalid]="submitted && f['message'].errors"
+                  placeholder="Décrivez votre demande en détail..."></textarea>
+                <div *ngIf="submitted && f['message'].errors" class="invalid-feedback">
+                  <div *ngIf="f['message'].errors['required']">Le message est obligatoire</div>
+                  <div *ngIf="f['message'].errors['minlength']">Le message doit contenir au moins 10 caractères</div>
+                </div>
+              </div>
+
+              <button 
+                type="submit" 
+                class="btn btn-primary btn-send"
+                [disabled]="isLoading">
+                <span *ngIf="!isLoading">Envoyer le message</span>
+                <span *ngIf="isLoading">
+                  <i class="fas fa-spinner fa-spin"></i> Envoi en cours...
+                </span>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Informations de Contact -->
+        <div class="col-lg-4">
+          <div class="contact-info">
+            <h3 class="info-title">Nos coordonnées</h3>
+            
+            <div class="info-item">
+              <div class="info-icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <div class="info-content">
+                <h4>Adresse</h4>
+                <p>123 Avenue de l'Éducation<br>Tunis, Tunisie 1000</p>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <div class="info-icon">
+                <i class="fas fa-phone"></i>
+              </div>
+              <div class="info-content">
+                <h4>Téléphone</h4>
+                <p>+216 70 000 000</p>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <div class="info-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <div class="info-content">
+                <h4>Email</h4>
+                <p>contact@edulearn.tn</p>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <div class="info-icon">
+                <i class="fas fa-clock"></i>
+              </div>
+              <div class="info-content">
+                <h4>Horaires d'ouverture</h4>
+                <p>Lun - Ven: 8h00 - 18h00<br>Sam: 9h00 - 13h00</p>
+              </div>
+            </div>
+
+            <div class="social-links">
+              <h4>Suivez-nous</h4>
+              <div class="social-icons">
+                <a href="#" class="social-link">
+                  <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="social-link">
+                  <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="social-link">
+                  <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="#" class="social-link">
+                  <i class="fab fa-instagram"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section FAQ Rapide -->
+  <div class="faq-section">
+    <div class="container">
+      <div class="row justify-content-center text-center">
+        <div class="col-lg-8">
+          <h2 class="faq-title">Questions fréquentes</h2>
+          <p class="faq-subtitle">Trouvez rapidement des réponses à vos questions</p>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-6">
+          <div class="faq-item">
+            <h4>Comment m'inscrire à un cours ?</h4>
+            <p>Créez un compte étudiant, parcourez les cours disponibles et choisissez celui qui vous convient.</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="faq-item">
+            <h4>Quels sont les tarifs des cours ?</h4>
+            <p>Les tarifs varient selon le niveau et la matière. Contactez-nous pour un devis personnalisé.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

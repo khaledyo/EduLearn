@@ -1,0 +1,23 @@
+<div class="container mt-4">
+  <h2>📊 Admin Dashboard</h2>
+  <div class="row mt-3">
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <strong>👥 Utilisateurs</strong>
+        <div class="display-6">{{ stats.users || 0 }}</div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <strong>📚 Cours</strong>
+        <div class="display-6">{{ stats.courses || 0 }}</div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <strong>🏫 Classes</strong>
+        <div class="display-6">{{ stats.classes || 0 }}</div>
+      </div>
+    </div>
+  </div>
+</div>

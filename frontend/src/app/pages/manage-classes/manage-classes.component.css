@@ -1,0 +1,303 @@
+/* Container & Layout */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+}
+
+/* Header */
+h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1877f2;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 3px solid #1877f2;
+}
+
+/* Search Section */
+.search-section {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 25px;
+}
+
+.input-group {
+  margin-bottom: 10px !important;
+}
+
+.input-group-text {
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-right: none;
+  color: #1877f2;
+  font-size: 1.1rem;
+}
+
+.form-control {
+  border: 2px solid #e0e0e0;
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+  padding: 12px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #1877f2;
+  box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.1);
+}
+
+.btn-outline-secondary {
+  border: 2px solid #e0e0e0;
+  color: #666;
+  border-radius: 8px 0 0 8px;
+  border-left: none;
+}
+
+.btn-outline-secondary:hover {
+  background: #f8f9fa;
+  color: #333;
+}
+
+.search-info {
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+  color: #666;
+}
+
+/* Loading State */
+.py-3 {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+  padding: 40px 20px !important;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.empty-state p {
+  color: #999;
+  font-size: 1.1rem;
+  margin-top: 15px;
+}
+
+/* List Group */
+.list-group {
+  background: transparent;
+  border: none;
+}
+
+/* List Item Card */
+.list-group-item {
+  background: white;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+  border-left: 5px solid #1877f2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.list-group-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.list-group-item:focus {
+  outline: none;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Content Section */
+.list-group-item > div:first-child {
+  flex: 1;
+}
+
+/* Class Name */
+.list-group-item strong {
+  font-size: 1.2rem;
+  color: #1877f2;
+  display: block;
+  margin-bottom: 8px;
+}
+
+/* Description & Teacher */
+.list-group-item .text-muted {
+  color: #999 !important;
+  font-size: 0.95rem;
+  display: block;
+  margin-top: 6px;
+}
+
+.list-group-item small {
+  font-size: 0.9rem;
+  color: #999;
+}
+
+/* Button Container */
+.list-group-item > div:last-child {
+  margin-left: 20px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Buttons */
+.btn {
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 0.9rem;
+}
+
+.btn-danger {
+  background: #e74c3c;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #c0392b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+}
+
+.btn-outline-primary {
+  border: 2px solid #1877f2;
+  color: #1877f2;
+  background: transparent;
+}
+
+.btn-outline-primary:hover {
+  background: #1877f2;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(24, 119, 242, 0.3);
+}
+
+/* Pagination Section */
+.pagination-section {
+  margin-top: 30px;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+/* Pagination */
+.pagination {
+  margin: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.page-item .page-link {
+  border: 1px solid #ddd;
+  color: #1877f2;
+  background: white;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.page-item .page-link:hover:not(:disabled) {
+  background: #1877f2;
+  color: white;
+  border-color: #1877f2;
+}
+
+.page-item.active .page-link {
+  background: #1877f2;
+  color: white;
+  border-color: #1877f2;
+  box-shadow: 0 4px 8px rgba(24, 119, 242, 0.3);
+}
+
+.page-item.disabled .page-link {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  color: #666;
+  font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  h3 {
+    font-size: 1.5rem;
+  }
+
+  .list-group-item {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px;
+  }
+
+  .list-group-item > div:last-child {
+    margin-left: 0;
+    margin-top: 15px;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .btn {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    flex: 1;
+  }
+
+  .list-group-item strong {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+  }
+
+  .search-section {
+    padding: 15px;
+  }
+
+  .form-control {
+    padding: 10px;
+  }
+
+  .pagination-section {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px;
+  }
+
+  .page-item .page-link {
+    padding: 8px 10px;
+    font-size: 0.9rem;
+  }
+}

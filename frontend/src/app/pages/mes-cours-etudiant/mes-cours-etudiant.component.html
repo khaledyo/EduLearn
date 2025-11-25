@@ -1,0 +1,137 @@
+<div class="container mt-4">
+  <!-- En-tête avec salutation -->
+  <div class="header-section mb-4">
+    <h1 class="welcome-title">Bonjour, {{ user?.prenom }} !</h1>
+    <div class="student-info">
+      <span class="badge niveau-badge">Niveau : {{ user?.niveauScolaire }}</span>
+      <span *ngIf="user?.section" class="badge section-badge">Section : {{ user?.section }}</span>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Colonne principale -->
+    <div class="col-lg-8">
+      <!-- Carte Progression générale -->
+      <div class="card progress-card mb-4">
+        <div class="card-body">
+          <h3 class="card-title">Progression générale</h3>
+          <div class="progress-container">
+            <div class="progress-circle">
+              <div class="circle-bg">
+                <div class="circle-fill"></div>
+              </div>
+              <div class="progress-text">
+                <span class="progress-percent">{{ progressionPercentage }}%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Carte Mes cours en cours -->
+      <div class="card courses-card mb-4">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="card-title mb-0">Mes cours en cours</h3>
+            <button class="btn btn-catalog" (click)="navigateToCatalogue()">
+              <i class="fas fa-book me-2"></i>Voir le catalogue
+            </button>
+          </div>
+          <div class="courses-list">
+            <div *ngFor="let cours of mesCours" class="course-item">
+              <div class="course-icon">
+                <i class="fas fa-book"></i>
+              </div>
+              <div class="course-info">
+                <h4 class="course-name">{{ cours.title || cours.titre }}</h4>
+                <p class="course-description">{{ truncateDescription(cours.description) }}</p>
+              </div>
+              <button class="btn btn-outline-primary btn-sm" (click)="navigateToCoursDetail(cours.id)">
+                <i class="fas fa-eye me-1"></i>Continuer
+              </button>
+            </div>
+            
+            <div *ngIf="mesCours.length === 0" class="text-center py-4">
+              <i class="fas fa-book-open fa-2x text-muted mb-3"></i>
+              <p class="text-muted">Aucun cours en cours</p>
+              <button class="btn btn-catalog" (click)="navigateToCatalogue()">
+                <i class="fas fa-book me-2"></i>Découvrir les cours
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Colonne latérale -->
+    <div class="col-lg-4">
+      <!-- Carte Notifications -->
+      <div class="card notifications-card mb-4">
+        <div class="card-body">
+          <h3 class="card-title">Notifications récentes</h3>
+          <div class="notifications-list">
+            <div class="notification-item">
+              <div class="notification-icon">
+                <i class="fas fa-comment-dots"></i>
+              </div>
+              <div class="notification-content">
+                <p class="notification-text">Forum pose hier</p>
+                <small class="notification-time">Hier</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Carte Mes classes -->
+      <div class="card classes-card mb-4">
+        <div class="card-body">
+          <h3 class="card-title">Mes classes</h3>
+          <div class="classes-list">
+            <div *ngFor="let classe of mesClasses" class="class-item" (click)="navigateToClassCourses(classe.id)">
+              <div class="class-icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <div class="class-info">
+                <h4 class="class-name">{{ classe.name }}</h4>
+                <p class="class-description" *ngIf="classe.description">
+                  {{ truncateDescription(classe.description) }}
+                </p>
+                <small class="text-muted">
+                  {{ classe.students_count || 0 }} étudiant(s)
+                </small>
+              </div>
+              <i class="fas fa-chevron-right class-arrow"></i>
+            </div>
+            
+            <div *ngIf="mesClasses.length === 0" class="text-center py-3">
+              <i class="fas fa-users fa-2x text-muted mb-2"></i>
+              <p class="text-muted small">Aucune classe</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Carte Accès rapide -->
+      <div class="card quick-access-card">
+        <div class="card-body">
+          <h3 class="card-title">Accès rapide</h3>
+          <div class="quick-links">
+            <a routerLink="/forum" class="quick-link">
+              <i class="fas fa-comments me-2"></i>
+              Forum
+            </a>
+            <a routerLink="/catalogue-cours" class="quick-link">
+              <i class="fas fa-book me-2"></i>
+              Catalogue des cours
+            </a>
+            <a href="#" class="quick-link">
+              <i class="fas fa-user me-2"></i>
+              Voir mon profil
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

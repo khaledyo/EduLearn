@@ -1,0 +1,21 @@
+<div class="container mt-4">
+  <div *ngIf="loading">Chargement...</div>
+  <div *ngIf="!loading && user" class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">Détails utilisateur</h5>
+    </div>
+    <div class="card-body">
+      <p><strong>Nom:</strong> {{ user.name || (user.prenom + ' ' + user.nom) }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>Rôle:</strong> {{ user.role }}</p>
+      <p><strong>Statut:</strong> {{ user.status }}</p>
+
+      <div class="mt-3">
+        <button *ngIf="user.role === 'teacher' && user.status === 'pending'" class="btn btn-success me-2" (click)="approve()">Approuver</button>
+        <button *ngIf="user.role === 'teacher' && user.status === 'active'" class="btn btn-warning me-2" (click)="deactivate()">Désactiver</button>
+        <button class="btn btn-danger" (click)="remove()">Supprimer</button>
+        <button class="btn btn-secondary ms-2" (click)="back()">Retour</button>
+      </div>
+    </div>
+  </div>
+</div>

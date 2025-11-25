@@ -1,0 +1,294 @@
+<div class="container mt-4">
+  <!-- Bouton de retour -->
+  <div class="mb-4">
+    <button class="btn btn-outline-secondary" (click)="goBack()">
+      <i class="fas fa-arrow-left me-2"></i>Retour au catalogue
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Chargement...</span>
+    </div>
+    <p class="mt-3 text-muted">Chargement du cours...</p>
+  </div>
+
+  <!-- Détails du cours -->
+  <div *ngIf="!isLoading && cours" class="row">
+    <div class="col-12">
+      <!-- En-tête du cours -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white">
+          <div class="row align-items-center">
+            <div class="col-md-8">
+              <h2 class="mb-0">
+                <i class="fas fa-book me-2"></i>{{ cours.title || cours.titre }}
+              </h2>
+            </div>
+            <div class="col-md-4 text-end">
+              <!-- Hide enrollment button for class-specific courses -->
+              <div *ngIf="!cours.class_id">
+                <div *ngIf="!isEnrolled()" class="btn-group" role="group">
+                  <button class="btn btn-success" (click)="enrollFromDetail()">
+                    <i class="fas fa-plus me-1"></i>S'inscrire au cours
+                  </button>
+                </div>
+                <div *ngIf="isEnrolled()" class="btn-group" role="group">
+                  <button class="btn btn-outline-danger" (click)="unenrollFromDetail()">
+                    <i class="fas fa-times me-1"></i>Se désinscrire
+                  </button>
+                </div>
+              </div>
+              <!-- Show badge for class-specific courses -->
+              <div *ngIf="cours.class_id && cours.class_name" class="badge bg-info fs-6">
+                <i class="fas fa-users me-1"></i>Cours de classe
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-8">
+              <h3 class="text-primary">Description</h3>
+              <p class="card-text">{{ cours.description }}</p>
+              
+              <div class="mt-4">
+                <h5 class="text-primary">Informations</h5>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <p class="mb-1">
+                      <i class="fas fa-calendar me-2 text-muted"></i>
+                      <strong>Date de création:</strong>
+                    </p>
+                    <p class="text-muted">{{ formatDate(cours.created_at || cours.dateCreation) }}</p>
+                  </div>
+                  <div class="col-sm-6">
+                    <p class="mb-1">
+                      <i class="fas fa-user-tie me-2 text-muted"></i>
+                      <strong>Enseignant:</strong>
+                    </p>
+                    <p class="text-muted">Nom: {{ cours.teacher_name || cours.enseignantNom }}</p>
+                    <p class="text-muted">Prénom: {{ cours.teacher_first_name || cours.enseignantPrenom }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card bg-light">
+                <div class="card-body text-center">
+                  <i class="fas fa-chart-bar fa-3x text-primary mb-3"></i>
+                  <h3>Statistiques</h3>
+                  <p class="text-muted mb-2">
+                    <i class="fas fa-download me-1"></i>
+                    {{ getSupports().length }} support(s) disponible(s)
+                  </p>
+                  <p class="text-muted mb-0">
+                    <i class="fas fa-users me-1"></i>
+                    <span *ngIf="cours.class_id">Cours de classe</span>
+                    <span *ngIf="!cours.class_id">{{ isEnrolled() ? 'Vous êtes inscrit' : 'Inscription requise' }}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section des exams et quizzes -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-success text-white">
+          <h5 class="mb-0">
+            <i class="fas fa-check-circle me-2"></i>Évaluations disponibles
+          </h5>
+        </div>
+        <div class="card-body">
+          <!-- Loading State -->
+          <div *ngIf="loadingQuizzesExams" class="text-center py-3">
+            <div class="spinner-border spinner-border-sm text-success" role="status">
+              <span class="visually-hidden">Chargement...</span>
+            </div>
+            <p class="mt-2 text-muted small">Chargement des évaluations...</p>
+          </div>
+
+          <!-- No Evaluations -->
+          <div *ngIf="!loadingQuizzesExams && quizzes.length === 0 && exams.length === 0" class="text-center py-4">
+            <i class="fas fa-inbox fa-2x text-muted mb-3"></i>
+            <p class="text-muted">Aucune évaluation disponible pour ce cours</p>
+          </div>
+
+          <!-- Quizzes Section -->
+          <div *ngIf="!loadingQuizzesExams && quizzes.length > 0" class="mb-4">
+            <h6 class="text-primary mb-3">
+              <i class="fas fa-list-check me-2"></i>Quizzes (Auto-évaluation - Score visible immédiatement)
+            </h6>
+            <div class="row">
+              <div *ngFor="let quiz of quizzes" class="col-md-6 col-lg-4 mb-3">
+                <div class="card h-100 border-success">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ quiz.title }}</h5>
+                    <div *ngIf="quiz.id && quizTakenStatus[quiz.id]" class="alert alert-success mb-2">
+                      <i class="fas fa-check-circle me-2"></i>
+                      <strong>Complété</strong>
+                      <div *ngIf="quiz.id && quizScores[quiz.id]" class="small mt-2">
+                        Score: {{ quizScores[quiz.id].score }} / {{ quizScores[quiz.id].total }}
+                        ({{ ((quizScores[quiz.id].score / quizScores[quiz.id].total) * 100).toFixed(0) }}%)
+                      </div>
+                    </div>
+                    <div *ngIf="!quiz.id || !quizTakenStatus[quiz.id]" class="alert alert-info mb-2 small">
+                      <i class="fas fa-circle-info me-2"></i>Non complété
+                    </div>
+                    <button 
+                      [disabled]="quiz.id && quizTakenStatus[quiz.id]"
+                      (click)="takeQuiz(quiz)"
+                      [class.disabled]="quiz.id && quizTakenStatus[quiz.id]"
+                      class="btn btn-sm"
+                      [class.btn-success]="!quiz.id || !quizTakenStatus[quiz.id]"
+                      [class.btn-outline-success]="quiz.id && quizTakenStatus[quiz.id]">
+                      <i class="fas fa-play me-1"></i>
+                      {{ (quiz.id && quizTakenStatus[quiz.id]) ? 'Déjà complété' : 'Commencer' }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Exams Section -->
+          <div *ngIf="!loadingQuizzesExams && exams.length > 0" class="mb-4">
+            <h6 class="text-danger mb-3">
+              <i class="fas fa-pencil-alt me-2"></i>Examens (Note accordée par l'enseignant)
+            </h6>
+            <div class="row">
+              <div *ngFor="let exam of exams" class="col-md-6 col-lg-4 mb-3">
+                <div class="card h-100 border-danger">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ exam.title }}</h5>
+                    <div *ngIf="exam.id && examTakenStatus[exam.id] && exam.id && examScores[exam.id] && examScores[exam.id].score" class="alert alert-success mb-2">
+                      <i class="fas fa-check-circle me-2"></i>
+                      <strong>Complété</strong>
+                      <div class="small mt-2">
+                        Score: {{ examScores[exam.id].score }}/20
+                      </div>
+                    </div>
+                    <div *ngIf="exam.id && examTakenStatus[exam.id] && (!exam.id || !examScores[exam.id] || !examScores[exam.id].score)" class="alert alert-warning mb-2">
+                      <i class="fas fa-hourglass-end me-2"></i>
+                      <strong>Soumis</strong>
+                      <div class="small mt-2">
+                        En attente de notation...
+                      </div>
+                    </div>
+                    <div *ngIf="!exam.id || !examTakenStatus[exam.id]" class="alert alert-info mb-2 small">
+                      <i class="fas fa-circle-info me-2"></i>Non passé
+                    </div>
+                    <button 
+                      [disabled]="exam.id && examTakenStatus[exam.id]"
+                      (click)="takeExam(exam)"
+                      [class.disabled]="exam.id && examTakenStatus[exam.id]"
+                      class="btn btn-sm"
+                      [class.btn-danger]="!exam.id || !examTakenStatus[exam.id]"
+                      [class.btn-outline-danger]="exam.id && examTakenStatus[exam.id]">
+                      <i class="fas fa-play me-1"></i>
+                      {{ (exam.id && examTakenStatus[exam.id]) ? 'Déjà passé' : 'Passer l\'examen' }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section des supports de cours -->
+      <div class="card shadow-sm">
+        <div class="card-header bg-secondary text-white">
+          <h5 class="mb-0">
+            <i class="fas fa-download me-2"></i>Supports de cours
+            <span *ngIf="!cours.class_id && !isEnrolled()" class="badge bg-warning ms-2">
+              Inscription requise
+            </span>
+          </h5>
+        </div>
+        <div class="card-body">
+          <div *ngIf="getSupports().length > 0; else noSupports" class="row">
+            <div *ngFor="let support of getSupports(); let i = index" 
+                 class="col-md-6 col-lg-4 mb-3">
+              <div class="support-card card h-100">
+                <div class="card-body text-center">
+                  <i [class]="getFileIcon(support) + ' fa-3x text-primary mb-3'"></i>
+                  <h4 class="card-title">{{ getFileType(support) }}</h4>
+                  <p class="card-text small text-muted">
+                    {{ support.split('/').pop() }}
+                  </p>
+                  <button class="btn btn-outline-primary btn-sm" 
+                          (click)="downloadSupport(support)"
+                          [disabled]="!cours.class_id && !isEnrolled()"
+                          [title]="(!cours.class_id && !isEnrolled()) ? 'Inscription requise' : 'Télécharger'">
+                    <i class="fas fa-download me-1"></i>
+                    {{ (cours.class_id || isEnrolled()) ? 'Télécharger' : 'Verrouillé' }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <ng-template #noSupports>
+            <div class="text-center py-4">
+              <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
+              <p class="text-muted">Aucun support disponible pour ce cours</p>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+
+      <!-- Q&A Posts -->
+      <div class="card shadow-sm mt-4">
+        <div class="card-header bg-info text-white">
+          <h5 class="mb-0"><i class="fas fa-question-circle me-2"></i>Questions & Réponses</h5>
+        </div>
+        <div class="card-body">
+          <div class="mb-3">
+            <label class="form-label">Poser une question</label>
+            <textarea class="form-control" rows="3" [(ngModel)]="newPostContent" placeholder="Posez votre question ici..."></textarea>
+            <div class="text-end mt-2">
+              <button class="btn btn-primary btn-sm" (click)="submitPost()">Envoyer</button>
+            </div>
+          </div>
+
+          <div *ngIf="posts.length === 0" class="text-muted small">Aucune question pour le moment</div>
+          <div *ngFor="let p of posts" class="mb-3">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <strong>{{ p.student?.name }}</strong>
+                    <div class="small text-muted">{{ p.created_at | date:'short' }}</div>
+                  </div>
+                </div>
+                <p class="mt-2">{{ p.content }}</p>
+
+                <div *ngIf="p.answers?.length > 0" class="mt-3">
+                  <div *ngFor="let a of p.answers" class="border-top pt-2">
+                    <strong>Réponse ({{ a.teacher?.name }})</strong>
+                    <div class="small text-muted">{{ a.created_at | date:'short' }}</div>
+                    <p class="mt-1">{{ a.content }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Message si cours non trouvé -->
+  <div *ngIf="!isLoading && !cours" class="text-center py-5">
+    <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+    <h4 class="text-muted">Cours non trouvé</h4>
+    <p class="text-muted">Le cours que vous recherchez n'existe pas ou a été supprimé.</p>
+    <button class="btn btn-primary" (click)="goBack()">
+      <i class="fas fa-arrow-left me-1"></i>Retour au catalogue
+    </button>
+  </div>
+</div>

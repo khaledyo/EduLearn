@@ -1,0 +1,262 @@
+<div class="container mt-4">
+  <!-- En-tête -->
+  <div class="header-section mb-4">
+    <div class="d-flex justify-content-between align-items-center flex-wrap">
+      <h1 class="welcome-title">Mes Cours</h1>
+      <button class="btn btn-create-course" (click)="openAddModal()">
+        <i class="fas fa-plus me-2"></i>Ajouter un cours 
+      </button>
+    </div>
+  </div>
+
+  <!-- Barre de recherche -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card search-card">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col-md-8">
+              <div class="input-group">
+                <span class="input-group-text bg-primary text-white">
+                  <i class="fas fa-search"></i>
+                </span>
+                <input type="text" 
+                       class="form-control" 
+                       placeholder="Rechercher un cours par titre..."
+                       [(ngModel)]="searchTerm"
+                       (input)="onSearchChange()"
+                       (keyup.enter)="rechercherCours()">
+              </div>
+            </div>
+            <div class="col-md-4 text-end">
+              <button class="btn btn-outline-secondary me-2" (click)="clearSearch()">
+                <i class="fas fa-times me-1"></i>Effacer
+              </button>
+              <button class="btn btn-primary" (click)="rechercherCours()">
+                <i class="fas fa-search me-1"></i>Rechercher
+              </button>
+            </div>
+          </div>
+          <!-- Indicateur de recherche -->
+          <div *ngIf="searchTerm" class="mt-2">
+            <small class="text-muted">
+              <i class="fas fa-info-circle me-1"></i>
+              Recherche : "{{ searchTerm }}" 
+              <span *ngIf="coursList.length > 0">- {{ getCoursFiltres().length }} résultat(s) trouvé(s)</span>
+              <span *ngIf="getCoursFiltres().length === 0">- Aucun résultat</span>
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Chargement...</span>
+    </div>
+    <p class="mt-2 text-muted">Chargement de vos cours...</p>
+  </div>
+
+  <!-- Liste des cours -->
+  <div *ngIf="!isLoading" class="row">
+    <div class="col-12">
+      <div class="cours-list">
+        <div *ngFor="let cours of getCoursFiltres()" class="cours-card mb-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <div class="row align-items-center">
+                <div class="col-md-8">
+                  <h2 class="card-title text-primary">{{ cours.title || cours.titre }}</h2>
+                  <p class="card-text text-muted">{{ cours.description }}</p>
+                  
+                  <div class="cours-metadata mt-3">
+                    <span class="badge bg-info text-white">
+                      <i class="fas fa-file me-1"></i>
+                      {{ getSupportsCount(cours) }} support(s)
+                    </span>
+                  </div>
+                  
+                  <small class="text-muted mt-2 d-block">
+                    <i class="fas fa-calendar me-1"></i>
+                    Créé le {{ formatDate(cours.created_at || cours.dateCreation) }}
+                  </small>
+                </div>
+                <div class="col-md-4 text-end">
+                  <div class="btn-group-vertical btn-group-sm" role="group">
+                    <button class="btn btn-outline-primary mb-2"
+                            (click)="navigateToCoursDetail(cours.id!)">
+                      <i class="fas fa-eye me-1"></i>Voir
+                    </button>
+                    <button class="btn btn-outline-success mb-2"
+                            (click)="openResultsModal(cours)">
+                      <i class="fas fa-chart-bar me-1"></i>Résultats
+                    </button>
+                    <button class="btn btn-outline-secondary mb-2"
+                            (click)="openEditModal(cours)">
+                      <i class="fas fa-edit me-1"></i>Modifier
+                    </button>
+                    <button class="btn btn-outline-danger"
+                            (click)="openDeleteModal(cours)">
+                      <i class="fas fa-trash me-1"></i>Supprimer
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Message si aucun cours -->
+        <div *ngIf="getCoursFiltres().length === 0 && !searchTerm" class="text-center py-5">
+          <i class="fas fa-book-open fa-3x mb-3 text-muted"></i>
+          <p class="text-muted">Aucun cours créé pour le moment</p>
+          <button class="btn btn-create-course" (click)="openAddModal()">
+            <i class="fas fa-plus me-2"></i>Créer votre premier cours
+          </button>
+        </div>
+
+        <!-- Message si aucun résultat de recherche -->
+        <div *ngIf="getCoursFiltres().length === 0 && searchTerm" class="text-center py-5">
+          <i class="fas fa-search fa-3x mb-3 text-muted"></i>
+          <h4 class="text-muted">Aucun cours trouvé</h4>
+          <p class="text-muted mb-3">Aucun cours ne correspond à votre recherche "{{ searchTerm }}"</p>
+          <button class="btn btn-outline-primary" (click)="clearSearch()">
+            <i class="fas fa-times me-1"></i>Effacer la recherche
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal d'édition/ajout de cours -->
+<app-cours-modal
+  [showModal]="showCoursModal"
+  [isEditMode]="isEditMode"
+  [cours]="currentCours"
+  (closeModal)="closeCoursModal()"
+  (submitCours)="handleCoursSubmit($event)"
+  (fileChange)="handleFileChange($event)">
+</app-cours-modal>
+
+<!-- Modal de confirmation de suppression -->
+<app-delete-confirmation-modal
+  [showModal]="showDeleteModal"
+  [coursTitle]="coursToDelete?.titre || ''"
+  (closeModal)="closeDeleteModal()"
+  (confirmDelete)="handleDeleteConfirm()">
+</app-delete-confirmation-modal>
+
+<!-- Modal de résultats des évaluations -->
+<div class="modal fade" [class.show]="showResultsModal" [style.display]="showResultsModal ? 'block' : 'none'" tabindex="-1">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title">
+          <i class="fas fa-chart-bar me-2"></i>Résultats - {{ selectedCoursForResults?.title }}
+        </h5>
+        <button type="button" class="btn-close btn-close-white" (click)="closeResultsModal()"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Loading State -->
+        <div *ngIf="loadingResults" class="text-center py-5">
+          <div class="spinner-border text-success" role="status">
+            <span class="visually-hidden">Chargement...</span>
+          </div>
+          <p class="mt-2 text-muted">Chargement des résultats...</p>
+        </div>
+
+        <!-- Tabs -->
+        <div *ngIf="!loadingResults" class="mb-4">
+          <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" [class.active]="selectedResultTab === 'quizzes'" 
+                      (click)="selectedResultTab = 'quizzes'" type="button" role="tab">
+                <i class="fas fa-list-check me-2"></i>Quizzes ({{ quizzes.length }})
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" [class.active]="selectedResultTab === 'exams'" 
+                      (click)="selectedResultTab = 'exams'" type="button" role="tab">
+                <i class="fas fa-pencil-alt me-2"></i>Examens ({{ exams.length }})
+              </button>
+            </li>
+          </ul>
+
+          <!-- Quizzes Tab -->
+          <div *ngIf="selectedResultTab === 'quizzes'" class="tab-content mt-3">
+            <div *ngIf="quizzes.length === 0" class="text-center py-4">
+              <i class="fas fa-inbox fa-2x text-muted mb-3"></i>
+              <p class="text-muted">Aucun quiz pour ce cours</p>
+            </div>
+
+            <div *ngFor="let quiz of quizzes" class="card mb-3">
+              <div class="card-header bg-light">
+                <h6 class="mb-0">
+                  <i class="fas fa-list-check me-2 text-info"></i>{{ quiz.title }}
+                  <span class="badge bg-info ms-2">{{ getQuizResultsForQuiz(quiz.id!).length }} réponse(s)</span>
+                </h6>
+              </div>
+              <div class="card-body">
+                <div *ngIf="getQuizResultsForQuiz(quiz.id!).length === 0" class="text-muted small">
+                  Aucune réponse pour ce quiz
+                </div>
+                <div *ngFor="let result of getQuizResultsForQuiz(quiz.id!)" class="row mb-2">
+                  <div class="col-md-6">
+                    <strong>{{ result.student?.name }}</strong>
+                    <small class="d-block text-muted">{{ result.student?.email }}</small>
+                  </div>
+                  <div class="col-md-6 text-end">
+                    <span class="badge bg-success">
+                      Score: {{ result.score }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Exams Tab -->
+          <div *ngIf="selectedResultTab === 'exams'" class="tab-content mt-3">
+            <div *ngIf="exams.length === 0" class="text-center py-4">
+              <i class="fas fa-inbox fa-2x text-muted mb-3"></i>
+              <p class="text-muted">Aucun examen pour ce cours</p>
+            </div>
+
+            <div *ngFor="let exam of exams" class="card mb-3">
+              <div class="card-header bg-light">
+                <div class="d-flex justify-content-between align-items-center">
+                  <h6 class="mb-0">
+                    <i class="fas fa-pencil-alt me-2 text-danger"></i>{{ exam.title }}
+                    <span class="badge bg-danger ms-2">{{ getExamResultsForExam(exam.id!).length }} réponse(s)</span>
+                  </h6>
+                  <button class="btn btn-sm btn-success" 
+                          (click)="gradeExam(exam)"
+                          *ngIf="getExamResultsForExam(exam.id!).length > 0">
+                    <i class="fas fa-star me-1"></i>Corriger
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                <div *ngIf="getExamResultsForExam(exam.id!).length === 0" class="text-muted small">
+                  Aucune réponse pour cet examen
+                </div>
+                <div *ngIf="getExamResultsForExam(exam.id!).length > 0" class="text-muted small">
+                  <i class="fas fa-info-circle me-1"></i>Cliquez sur le bouton "Corriger" pour examiner et noter les réponses des étudiants
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeResultsModal()">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Backdrop -->
+<div class="modal-backdrop fade" [class.show]="showResultsModal" *ngIf="showResultsModal"></div>

@@ -1,0 +1,80 @@
+<div class="container mt-4">
+  <h3>👨‍🏫 Gérer les enseignants</h3>
+  
+  <!-- Search Bar -->
+  <div class="search-section">
+    <div class="input-group mb-3">
+      <span class="input-group-text">🔍</span>
+      <input type="text" class="form-control" placeholder="Chercher par nom, email, rôle ou statut..." 
+             [(ngModel)]="searchQuery" (keyup)="onSearchChange(searchQuery)">
+      <button class="btn btn-outline-secondary" type="button" (click)="searchQuery = ''; onSearchChange('')">✕ Effacer</button>
+    </div>
+    <div class="search-info">
+      <small>Résultats: <strong>{{ filteredUsers.length }}</strong> / Total: <strong>{{ users.length }}</strong></small>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="py-3 text-center">
+    <span>⏳ Chargement...</span>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && filteredUsers.length === 0" class="empty-state">
+    <i class="fas fa-inbox" style="font-size: 3rem; color: #ddd;"></i>
+    <p>Aucun enseignant trouvé</p>
+  </div>
+
+  <!-- Table -->
+  <div *ngIf="!loading && filteredUsers.length > 0" class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>👤 Nom</th>
+          <th>📧 Email</th>
+          <th>🏷️ Rôle</th>
+          <th>📊 Statut</th>
+          <th>⚙️ Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of paginatedUsers">
+          <td><a (click)="viewDetails(u)" style="cursor:pointer">{{ u.name }}</a></td>
+          <td>{{ u.email }}</td>
+          <td><span class="badge badge-secondary">{{ u.role }}</span></td>
+          <td>
+            <span class="badge" [ngClass]="u.status === 'active' ? 'badge-success' : 'badge-warning'">
+              {{ u.status === 'active' ? '✓ Actif' : '⏳ En attente' }}
+            </span>
+          </td>
+          <td style="white-space: nowrap;">
+            <button class="btn btn-sm btn-outline-primary me-2" (click)="viewDetails(u)">Détails</button>
+            <button class="btn btn-sm btn-danger me-2" (click)="deleteTeacherConfirm(u)">Supprimer</button>
+            <button class="btn btn-sm btn-success me-2" (click)="approve(u)" *ngIf="u.role === 'teacher' && u.status === 'pending'">Approuver</button>
+            <button class="btn btn-sm btn-warning" (click)="reject(u)" *ngIf="u.role === 'teacher' && u.status === 'active'">Désactiver</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div *ngIf="!loading && filteredUsers.length > 0" class="pagination-section">
+    <nav aria-label="Page navigation">
+      <ul class="pagination">
+        <li class="page-item" [ngClass]="currentPage === 1 ? 'disabled' : ''">
+          <button class="page-link" (click)="previousPage()" [disabled]="currentPage === 1">← Précédent</button>
+        </li>
+        <li class="page-item" *ngFor="let page of [].constructor(totalPages); let i = index" [ngClass]="currentPage === i + 1 ? 'active' : ''">
+          <button class="page-link" (click)="goToPage(i + 1)">{{ i + 1 }}</button>
+        </li>
+        <li class="page-item" [ngClass]="currentPage === totalPages ? 'disabled' : ''">
+          <button class="page-link" (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant →</button>
+        </li>
+      </ul>
+    </nav>
+    <div class="pagination-info">
+      <small>Page <strong>{{ currentPage }}</strong> / <strong>{{ totalPages }}</strong></small>
+    </div>
+  </div>
+</div>

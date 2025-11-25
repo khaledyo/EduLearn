@@ -1,0 +1,135 @@
+<div class="container mt-4">
+  <!-- En-tête avec salutation -->
+  <div class="header-section mb-5">
+    <h1 class="welcome-title">Bonjour, Prof. {{ user?.prenom }} {{ user?.nom }} !</h1>
+    <div class="d-flex gap-2 flex-wrap">
+    <button class="btn btn-create-course" routerLink="/enseignant/mes-cours">
+      <i class="fas fa-book me-2"></i>Gérer mes cours
+    </button>
+      <button class="btn btn-create-course" (click)="openClassModal()">
+        <i class="fas fa-users me-2"></i>Créer une classe
+      </button>
+    </div>
+  </div>
+
+  <!-- Cartes de statistiques -->
+  <div class="row stats-cards mb-5">
+    <!-- Carte Cours créés -->
+    <div class="col-md-4 mb-4">
+      <div class="stat-card">
+        <div class="stat-icon cours-icon">
+          <i class="fas fa-book"></i>
+        </div>
+        <div class="stat-content">
+          <h3 class="stat-number">{{ stats.coursCrees || 0 }}</h3>
+          <p class="stat-label">Cours créés</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Carte Étudiants -->
+    <div class="col-md-4 mb-4">
+      <div class="stat-card">
+        <div class="stat-icon etudiants-icon">
+          <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-content">
+          <h3 class="stat-number">{{ stats.etudiantsTotal || 0 }}</h3>
+          <p class="stat-label">Étudiants</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Carte Messages non lus -->
+    <div class="col-md-4 mb-4">
+      <div class="stat-card">
+        <div class="stat-icon messages-icon">
+          <i class="fas fa-envelope"></i>
+        </div>
+        <div class="stat-content">
+          <h3 class="stat-number">{{ stats.messagesNonLus || 0 }}</h3>
+          <p class="stat-label">Messages non lus</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section cours récents -->
+  <div class="recent-courses-section mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h3 class="section-title">Cours récents</h3>
+      <button class="btn btn-outline-primary btn-sm" routerLink="/enseignant/mes-cours">
+        Voir tous
+      </button>
+    </div>
+    
+    <div *ngIf="coursRecents.length > 0" class="row">
+      <div *ngFor="let cours of coursRecents" class="col-md-6 col-lg-4 mb-4">
+        <div class="card h-100 shadow-sm cours-card" (click)="naviguerVersDetailCours(cours.id)">
+          <div class="card-body">
+            <h5 class="card-title">{{ cours.title || cours.titre }}</h5>
+            <p class="card-text text-muted">{{ cours.description | slice:0:100 }}...</p>
+            <small class="text-muted">
+              {{ formatDate(cours.created_at || cours.dateCreation) }}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="coursRecents.length === 0" class="no-courses-placeholder">
+      <i class="fas fa-book-open fa-3x mb-3 text-muted"></i>
+      <p class="text-muted">Aucun cours créé pour le moment</p>
+    </div>
+  </div>
+
+  <!-- Section classes récentes -->
+  <div class="recent-courses-section">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h3 class="section-title">Classes récentes</h3>
+      <button class="btn btn-outline-primary btn-sm" (click)="naviguerVersMesClasses()">
+        Voir toutes
+      </button>
+    </div>
+    
+    <div *ngIf="classesRecentes.length > 0" class="row">
+      <div *ngFor="let classe of classesRecentes" class="col-md-6 col-lg-4 mb-4">
+        <div class="card h-100 shadow-sm cours-card" (click)="naviguerVersDetailClasse(classe.id)">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <h5 class="card-title mb-0">{{ classe.name }}</h5>
+              <span class="badge bg-primary">{{ classe.students_count || 0 }} étudiant(s)</span>
+            </div>
+            <p class="card-text text-muted" *ngIf="classe.description">
+              {{ classe.description | slice:0:80 }}{{ classe.description.length > 80 ? '...' : '' }}
+            </p>
+            <p class="card-text text-muted" *ngIf="!classe.description">
+              Aucune description
+            </p>
+            <small class="text-muted">
+              <i class="fas fa-calendar me-1"></i>
+              {{ formatDate(classe.created_at) }}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="classesRecentes.length === 0" class="no-courses-placeholder">
+      <i class="fas fa-users fa-3x mb-3 text-muted"></i>
+      <p class="text-muted">Aucune classe créée pour le moment</p>
+      <button class="btn btn-create-course-outline" (click)="openClassModal()">
+        <i class="fas fa-plus me-2"></i>Créer votre première classe
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de création de classe -->
+<app-class-modal
+  [showModal]="showClassModal"
+  [isEditMode]="false"
+  [classe]="null"
+  (closeModal)="closeClassModal()"
+  (submitClass)="handleClassSubmit($event)">
+</app-class-modal>
