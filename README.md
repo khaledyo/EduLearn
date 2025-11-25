@@ -66,8 +66,8 @@ EduLearn est une plateforme innovante qui connecte les étudiants tunisiens avec
 ### 🔐 Pages d'Authentification
 <div align="center">
 
-![Login](https://github.com/user-attachments/assets/9565874a-8623-4cab-9254-bb15dc21e382)
-![Register](https://github.com/user-attachments/assets/0be426cb-553c-4697-81ff-eb8c5e94909c)
+<img src="https://github.com/user-attachments/assets/9565874a-8623-4cab-9254-bb15dc21e382" width="400" />
+<img src="https://github.com/user-attachments/assets/0be426cb-553c-4697-81ff-eb8c5e94909c" width="400" />
 
 *Interfaces modernes et sécurisées pour l'authentification*
 
