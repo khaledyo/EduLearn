@@ -66,8 +66,8 @@ EduLearn est une plateforme innovante qui connecte les étudiants tunisiens avec
 ### 🔐 Pages d'Authentification
 <div align="center">
 
-![Login](https://via.placeholder.com/400x600/667eea/ffffff?text=Page+Login)
-![Register](https://via.placeholder.com/400x600/764ba2/ffffff?text=Page+Register)
+![Login](https://github.com/user-attachments/assets/9565874a-8623-4cab-9254-bb15dc21e382)
+![Register](https://github.com/user-attachments/assets/0be426cb-553c-4697-81ff-eb8c5e94909c)
 
 *Interfaces modernes et sécurisées pour l'authentification*
 
@@ -76,8 +76,8 @@ EduLearn est une plateforme innovante qui connecte les étudiants tunisiens avec
 ### 🏠 Page d'Accueil Visiteur
 <div align="center">
 
-![Accueil Hero](https://via.placeholder.com/600x400/4facfe/ffffff?text=Section+Hero)
-![Offres de Cours](https://via.placeholder.com/600x400/43e97b/ffffff?text=Carrousel+Offres)
+![Accueil Hero](https://github.com/user-attachments/assets/ec104396-c994-42ef-8d49-87fc4fb10092)
+![Offres de Cours](https://github.com/user-attachments/assets/bc252100-e3b7-4c92-aef0-5ef8ef888042)
 
 *Design responsive avec carrousel 3D des offres*
 
@@ -86,8 +86,8 @@ EduLearn est une plateforme innovante qui connecte les étudiants tunisiens avec
 ### ℹ️ Page À Propos
 <div align="center">
 
-![À Propos 1](https://via.placeholder.com/600x400/f093fb/ffffff?text=Notre+Mission)
-![À Propos 2](https://via.placeholder.com/400x400/f5576c/ffffff?text=Notre+Équipe)
+![À Propos 1](https://github.com/user-attachments/assets/c98a7222-1609-4190-a2e4-9752d0bee0da)
+![À Propos 2](https://github.com/user-attachments/assets/2fb31674-9ef6-428f-afed-ee1a2be6c638)
 
 *Présentation professionnelle de notre mission et équipe*
 
@@ -96,8 +96,8 @@ EduLearn est une plateforme innovante qui connecte les étudiants tunisiens avec
 ### 📞 Page Contact
 <div align="center">
 
-![Formulaire Contact](https://via.placeholder.com/600x400/667eea/ffffff?text=Formulaire+Contact)
-![Carte Interactive](https://via.placeholder.com/400x400/764ba2/ffffff?text=Carte+Interactive)
+![Formulaire Contact](https://github.com/user-attachments/assets/cb70b92a-266b-4b95-9ff5-16be6f122bfe)
+![Carte Interactive](https://github.com/user-attachments/assets/01844e40-8db0-4208-aeab-b5505d8dadb3)
 
 *Interface de contact avec carte interactive et formulaire*
 
@@ -106,7 +106,7 @@ EduLearn est une plateforme innovante qui connecte les étudiants tunisiens avec
 ### 🎓 Espace Étudiant
 <div align="center">
 
-![Dashboard Étudiant](https://via.placeholder.com/600x400/4facfe/ffffff?text=Dashboard+Étudiant)
+![Dashboard Étudiant](https://github.com/user-attachments/assets/3b4d987f-cd93-4bc8-9d34-bea9e57579e8)
 
 *Dashboard personnalisé avec suivi des cours et progression*
 
@@ -115,7 +115,7 @@ EduLearn est une plateforme innovante qui connecte les étudiants tunisiens avec
 ### 👨‍🏫 Espace Enseignant
 <div align="center">
 
-![Dashboard Enseignant](https://via.placeholder.com/600x400/43e97b/ffffff?text=Dashboard+Enseignant)
+![Dashboard Enseignant](https://github.com/user-attachments/assets/8711a14a-e835-466b-ad4f-4e07d7c73e35)
 
 *Interface de gestion des cours et étudiants*
 
@@ -124,9 +124,9 @@ EduLearn est une plateforme innovante qui connecte les étudiants tunisiens avec
 ### ⚙️ Administration
 <div align="center">
 
-![Admin Dashboard](https://via.placeholder.com/600x300/f093fb/ffffff?text=Admin+Dashboard)
-![Gestion Utilisateurs](https://via.placeholder.com/600x400/f5576c/ffffff?text=Gestion+Utilisateurs)
-![Gestion Cours](https://via.placeholder.com/600x400/667eea/ffffff?text=Gestion+Cours)
+![Admin Dashboard](https://github.com/user-attachments/assets/fcce41be-fe5e-4e1d-92cc-91a23831899f)
+![Gestion Utilisateurs](https://github.com/user-attachments/assets/c5a52122-3be6-4c49-91d3-e181f2661fd4)
+![Gestion Cours](https://github.com/user-attachments/assets/358f21b2-94f7-4b5a-8a10-1f66e9a440aa)
 
 *Panel d'administration complet avec analytics et gestion*
 
